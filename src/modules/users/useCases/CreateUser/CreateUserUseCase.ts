@@ -1,0 +1,6 @@
+
+class CreateUserUseCase {
+
+}
+
+export { CreateUserUseCase }

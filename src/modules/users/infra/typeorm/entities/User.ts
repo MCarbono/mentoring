@@ -58,6 +58,12 @@ class User {
     })
     communications: Communication[];
 
+    constructor(){
+        if(!this.id){
+            this.id = uuidV4()
+        }
+    }
+
 }
 
 export { User }

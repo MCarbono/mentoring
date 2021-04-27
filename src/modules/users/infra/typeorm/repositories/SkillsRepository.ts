@@ -10,7 +10,7 @@ class SkillsRepository implements ISkillsRepository {
     constructor(){
         this.repository = getRepository(Skill)
     }
- 
+    
     async create({name}: ICreateSkillDTO): Promise<void> {
         const skill = this.repository.create({
             name
@@ -23,6 +23,10 @@ class SkillsRepository implements ISkillsRepository {
         const skill = await this.repository.findOne({ name })
 
         return skill
+    }
+
+    async findByIds(skills_id: Skill[]): Promise<Skill[]> {
+        return await this.repository.findByIds(skills_id)
     }
 
 }

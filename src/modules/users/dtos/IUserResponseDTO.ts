@@ -1,19 +1,18 @@
 import { Communication } from "../infra/typeorm/entities/Communication";
 import { Skill } from "../infra/typeorm/entities/Skill";
 
-interface ICreateUserDTO {
-    id?: string;
+interface IUserResponseDTO {
     first_name: string;
     last_name: string;
     email: string;
-    password: string;
     is_mentor: boolean;
-    avatar?: string;
+    skills: Skill[];
+
     info_mentor?: string;
-    stars?: string;
     total_evaluations?: string;
-    skills?: Skill[];
+    stars?: string;
     communications?: Communication[]
+
 }
 
-export { ICreateUserDTO }
+export { IUserResponseDTO }

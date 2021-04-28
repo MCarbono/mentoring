@@ -1,0 +1,7 @@
+
+
+interface IDateProvider {
+
+}
+
+export { IDateProvider }

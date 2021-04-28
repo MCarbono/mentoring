@@ -1,6 +1,7 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, PrimaryColumn, UpdateDateColumn } from 'typeorm'
+import { Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryColumn, UpdateDateColumn } from 'typeorm'
 import { v4 as uuidV4 } from 'uuid';
 import { Communication } from './Communication';
+import { MentoringAvailability } from './MentoringAvailabilitiy';
 import { Skill } from './Skill';
 
 @Entity("users")
@@ -60,7 +61,7 @@ class User {
 
     constructor(){
         if(!this.id){
-            this.id = uuidV4()
+            this.id = uuidV4();
         }
     }
 

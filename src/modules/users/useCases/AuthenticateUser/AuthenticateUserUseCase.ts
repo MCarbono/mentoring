@@ -1,5 +1,3 @@
-//401 
-
 import { IUserRepository } from "@modules/users/repositories/IUserRepository";
 import { inject, injectable } from "tsyringe";
 
@@ -12,6 +10,7 @@ interface ITokenResponse {
     token: string,
     email: string
 }
+
 @injectable()
 class AuthenticateUserUseCase {
 
@@ -28,7 +27,7 @@ class AuthenticateUserUseCase {
             throw new AppError("Email or password incorrect", 401)
         }
 
-        const passwordHash = await compare(user.password, password)
+        const passwordHash = await compare(password, user.password)
 
         if(!passwordHash){
             throw new AppError("Email or password incorrect", 401);

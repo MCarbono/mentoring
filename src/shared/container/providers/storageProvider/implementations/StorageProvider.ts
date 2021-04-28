@@ -3,7 +3,6 @@ import fs from 'fs';
 import { resolve } from 'path';
 import upload from "@config/upload";
 
-
 class StorageProvider implements IStorageProvider {
 
     async save(file: string, folder: string): Promise<string> {

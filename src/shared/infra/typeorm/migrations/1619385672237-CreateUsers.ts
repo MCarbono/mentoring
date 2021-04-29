@@ -32,7 +32,8 @@ export class CreateUsers1619385672237 implements MigrationInterface {
                     {
                         name: "avatar",
                         type: "varchar",
-                        isNullable: true
+                        isNullable: true,
+                        default: null
                     },
                     {
                         name: "is_mentor",

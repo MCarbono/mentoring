@@ -1,7 +1,8 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryColumn, UpdateDateColumn } from 'typeorm'
+import { Mentoring } from '@modules/mentoring/infra/entities/Mentoring';
+import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, OneToMany, PrimaryColumn, UpdateDateColumn } from 'typeorm'
 import { v4 as uuidV4 } from 'uuid';
 import { Communication } from './Communication';
-import { MentoringAvailability } from './MentoringAvailabilitiy';
+import { MentorsAvailability } from './MentorsAvailability';
 import { Skill } from './Skill';
 
 @Entity("users")
@@ -42,6 +43,12 @@ class User {
 
     @UpdateDateColumn()
     updated_at: Date;
+
+    @OneToMany(() => MentorsAvailability, mentors_availability => mentors_availability.user)
+    mentors_availabilities: MentorsAvailability[]
+
+    @OneToMany(() => Mentoring, mentoring => mentoring.user)
+    mentoring: Mentoring;
 
     @ManyToMany(() => Skill)
     @JoinTable({

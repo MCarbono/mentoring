@@ -1,5 +1,4 @@
 import { IUserResponseDTO } from "@modules/users/dtos/IUserResponseDTO";
-import { User } from "@modules/users/infra/typeorm/entities/User";
 import { UserMap } from "@modules/users/Mapper/UserMap";
 import { IUserRepository } from "@modules/users/repositories/IUserRepository";
 import { inject, injectable } from "tsyringe";

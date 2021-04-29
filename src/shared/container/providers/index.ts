@@ -12,6 +12,6 @@ container.registerSingleton<IStorageProvider>(
 )
 
 container.registerSingleton<IDateProvider>(
-    "DateProvider",
+    "DayjsDateProvider",
     DayjsDateProvider
 )

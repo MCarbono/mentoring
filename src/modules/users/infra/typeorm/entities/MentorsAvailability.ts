@@ -1,9 +1,10 @@
+import { Mentoring } from "@modules/mentoring/infra/entities/Mentoring";
 import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryColumn, UpdateDateColumn } from "typeorm";
 import { v4 as  uuidV4 } from 'uuid';
 import { User } from "./User";
 
-@Entity("mentoring_availabilities")
-class MentoringAvailability {
+@Entity("mentors_availabilities")
+class MentorsAvailability {
 
     @PrimaryColumn()
     id: string;
@@ -14,12 +15,6 @@ class MentoringAvailability {
     @Column()
     end_date: Date;
 
-    @ManyToOne(() => User)
-    @JoinColumn({
-        name: "mentor_id"
-    })
-    mentor: User
-
     @Column()
     mentor_id: string;
 
@@ -29,6 +24,15 @@ class MentoringAvailability {
     @UpdateDateColumn()
     updated_at: Date;
 
+    @ManyToOne(() => User, user => user.mentors_availabilities)
+    @JoinColumn({
+        name: "mentor_id",
+    })
+    user: User
+
+    @OneToMany(() => Mentoring, mentoring => mentoring.mentor_availability)
+    mentoring: Mentoring;
+
     constructor(){
         if(!this.id){
             this.id = uuidV4();
@@ -36,4 +40,4 @@ class MentoringAvailability {
     }
 }
 
-export { MentoringAvailability }
+export { MentorsAvailability }

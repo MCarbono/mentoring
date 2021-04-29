@@ -56,10 +56,12 @@ class UsersRepository implements IUserRepository {
     async profile(id: string): Promise<User> {
         const user = await this.repository.findOne({
             where: {id},
-            relations: ['skills', 'communications']
+            relations: ['skills', 'communications', 'mentoring_availabilities']
         })
         
-        return user;
+        //const user_availabilities = await this.repository.createQueryBuilder("user").where({ id }).leftJoinAndSelect("user.mentoring_availabilities", "mentoring_availabilities").getMany();
+        //console.log(user_availabilities)
+        return user
     }
 
     async findById(id: string): Promise<User> {

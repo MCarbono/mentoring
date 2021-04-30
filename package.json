@@ -7,7 +7,8 @@
     "dev": "ts-node-dev -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node-modules --respawn src/shared/infra/http/server.ts",
     "typeorm": "ts-node-dev -r tsconfig-paths/register ./node_modules/typeorm/cli",
     "seed:communications": "ts-node-dev src/shared/infra/typeorm/seeds/communications.ts",
-    "seed:skills": "ts-node-dev src/shared/infra/typeorm/seeds/skills.ts"
+    "seed:skills": "ts-node-dev src/shared/infra/typeorm/seeds/skills.ts",
+    "seed:users": "ts-node-dev src/shared/infra/typeorm/seeds/users.ts"
   },
   "dependencies": {
     "bcrypt": "^5.0.1",

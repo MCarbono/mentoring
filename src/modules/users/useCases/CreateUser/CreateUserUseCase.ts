@@ -47,12 +47,15 @@ class CreateUserUseCase {
             throw new AppError("One or more skills does not exists!")
         }
 
-        const communications = await this.communicationsRepository.findByIds(communications_id)
+        let communications: Communication[];
+        if(communications_id){
+             communications = await this.communicationsRepository.findByIds(communications_id)
 
-        if(communications.length !== communications_id.length){
-            throw new AppError("One or more communications does not exists!")
+            if(communications.length !== communications_id.length){
+                throw new AppError("One or more communications does not exists!")
+            }
         }
-
+        
         if(!is_mentor){
             const user = await this.usersRepository.create({
                 first_name,

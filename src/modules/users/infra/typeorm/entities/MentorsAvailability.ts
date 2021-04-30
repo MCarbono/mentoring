@@ -1,4 +1,5 @@
-import { Mentoring } from "@modules/mentoring/infra/entities/Mentoring";
+
+import { Mentoring } from "../../../../mentoring/infra/typeorm/entities/Mentoring";
 import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryColumn, UpdateDateColumn } from "typeorm";
 import { v4 as  uuidV4 } from 'uuid';
 import { User } from "./User";
@@ -30,8 +31,8 @@ class MentorsAvailability {
     })
     user: User
 
-    @OneToMany(() => Mentoring, mentoring => mentoring.mentor_availability)
-    mentoring: Mentoring;
+    @OneToMany(() => Mentoring, mentoring => mentoring.mentors_availability)
+    mentoring: Mentoring
 
     constructor(){
         if(!this.id){

@@ -1,4 +1,5 @@
-import { Mentoring } from '@modules/mentoring/infra/entities/Mentoring';
+
+import { Mentoring } from '../../../../mentoring/infra/typeorm/entities/Mentoring';
 import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, OneToMany, PrimaryColumn, UpdateDateColumn } from 'typeorm'
 import { v4 as uuidV4 } from 'uuid';
 import { Communication } from './Communication';
@@ -47,9 +48,6 @@ class User {
     @OneToMany(() => MentorsAvailability, mentors_availability => mentors_availability.user)
     mentors_availabilities: MentorsAvailability[]
 
-    @OneToMany(() => Mentoring, mentoring => mentoring.user)
-    mentoring: Mentoring;
-
     @ManyToMany(() => Skill)
     @JoinTable({
         name: "users_skills",
@@ -65,6 +63,9 @@ class User {
         inverseJoinColumns: [{ name: "communication_id"}]
     })
     communications: Communication[];
+
+    @OneToMany(() => Mentoring, mentoring => mentoring.mentor)
+    mentoring: Mentoring
 
     constructor(){
         if(!this.id){

@@ -14,6 +14,9 @@ import { CommunicationsRepository } from '@modules/users/infra/typeorm/repositor
 import { IMentorsAvailabilityRepository } from '@modules/users/repositories/IMentorsAvailabilityRepository';
 import { MentorsAvailabilitiesRepository } from '@modules/users/infra/typeorm/repositories/MentorsAvailabilitiesRepository';
 
+import { IMentoringRepository } from '@modules/mentoring/repositories/IMentoringRepository';
+import { MentoringRepository } from '@modules/mentoring/infra/typeorm/repositories/MentoringRepository';
+
 container.registerSingleton<ISkillsRepository>(
     "SkillsRepository",
     SkillsRepository
@@ -32,5 +35,10 @@ container.registerSingleton<ICommunicationsRepository>(
 container.registerSingleton<IMentorsAvailabilityRepository>(
     "MentorsAvailabilitiesRepository",
     MentorsAvailabilitiesRepository
+)
+
+container.registerSingleton<IMentoringRepository>(
+    "MentoringRepository",
+    MentoringRepository
 )
 

@@ -20,6 +20,9 @@ class MentorsAvailabilitiesRepository implements IMentorsAvailabilityRepository 
         return await this.repository.save(mentoringAvailability)
     }
 
+    async findById(id: string): Promise<MentorsAvailability> {
+        return await this.repository.findOne({id})
+    }
 }
 
 export { MentorsAvailabilitiesRepository }

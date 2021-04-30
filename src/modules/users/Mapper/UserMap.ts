@@ -12,7 +12,8 @@ class UserMap {
         info_mentor,
         total_evaluations,
         stars,
-        communications
+        communications,
+        mentors_availabilities
     }: User): IUserResponseDTO{
         const user = {
             first_name,
@@ -27,7 +28,8 @@ class UserMap {
                 info_mentor,
                 total_evaluations,
                 stars,
-                communications
+                communications,
+                mentors_availabilities
             })
         }
         return user;

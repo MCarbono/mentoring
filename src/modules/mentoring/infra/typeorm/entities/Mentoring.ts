@@ -48,6 +48,9 @@ class Mentoring {
     @UpdateDateColumn()
     updated_at: Date;
 
+    @Column()
+    accepted: boolean;
+
     constructor(){
         if(!this.id){
             this.id = uuidV4();

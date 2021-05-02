@@ -20,9 +20,6 @@ class CreateMentoringUseCase {
         @inject("UsersRepository")
         private usersRepository: IUserRepository,
 
-        @inject("MentorsAvailabilitiesRepository")
-        private mentorsAvailabilitiesRepository: IMentorsAvailabilityRepository
-
     ){}
 
     async execute({ mentor_id, user_id, mentor_availability_id, subject }:IRequest): Promise<void>{
@@ -35,8 +32,11 @@ class CreateMentoringUseCase {
         if(!mentor.is_mentor)
             throw new AppError("User mentor selected is not a mentor")
 
-        //mentor_availability_id verification
-        
+        const mentoringAlreadyRegistered = await this.mentoringRepository.findByIdMentorAvailability(mentor_availability_id)
+
+        if(mentoringAlreadyRegistered){
+            throw new AppError("Mentoring is already registered. Wait for mentor's approvement")
+        }
 
         await this.mentoringRepository.create({
             mentor_availability_id,

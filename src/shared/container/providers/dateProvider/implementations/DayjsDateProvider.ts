@@ -7,6 +7,7 @@ dayjs.extend(utc);
 
 
 class DayjsDateProvider implements IDateProvider {
+    
     dateNow(): Date {
         return dayjs().toDate()
     }
@@ -24,6 +25,12 @@ class DayjsDateProvider implements IDateProvider {
         const end_date_utc = this.convertToUTC(end_date)
 
         return dayjs(start_date_utc).diff(end_date_utc, "minute")
+    }
+
+    limitToAcceptMentoring(start_date: Date, hours: number): Date {
+        const star_date_utc = this.convertToUTC(start_date)
+        const limitDate = dayjs(star_date_utc).subtract(hours, 'hours').toDate()
+        return limitDate
     }
 }
 

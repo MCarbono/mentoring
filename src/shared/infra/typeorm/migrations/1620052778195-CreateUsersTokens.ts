@@ -1,11 +1,11 @@
 import {MigrationInterface, QueryRunner, Table} from "typeorm";
 
-export class CreateComments1620003325481 implements MigrationInterface {
+export class CreateUsersTokens1620052778195 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(
             new Table({
-                name: "comments",
+                name: "users_tokens",
                 columns: [
                     {
                         name: "id",
@@ -13,41 +13,34 @@ export class CreateComments1620003325481 implements MigrationInterface {
                         isPrimary: true
                     },
                     {
-                        name: "comment",
+                        name: "refresh_token",
                         type: "varchar"
                     },
                     {
-                        name: "comment_star",
-                        type: "varchar"
+                        name: "expires_date",
+                        type: "timestamp"
                     },
                     {
                         name: "user_id",
                         type: "uuid"
                     },
                     {
-                        name: "mentor_id",
-                        type: "uuid"
+                        name: "created_at",
+                        type: "timestamp",
+                        default: "now()"
                     },
                     {
-                        name: "created_at",
+                        name: "updated_at",
                         type: "timestamp",
                         default: "now()"
                     }
                 ],
                 foreignKeys: [
                     {
-                        name: "FKUserComment",
+                        name: "FKUsersTokens",
                         referencedTableName: "users",
                         referencedColumnNames: ["id"],
                         columnNames: ["user_id"],
-                        onDelete: "CASCADE",
-                        onUpdate: "CASCADE"
-                    },
-                    {
-                        name: "FKMentorComment",
-                        referencedTableName: "users",
-                        referencedColumnNames: ["id"],
-                        columnNames: ["mentor_id"],
                         onDelete: "CASCADE",
                         onUpdate: "CASCADE"
                     }
@@ -57,7 +50,7 @@ export class CreateComments1620003325481 implements MigrationInterface {
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.dropTable("comments");
+        await queryRunner.dropTable("users_tokens");
     }
 
 }

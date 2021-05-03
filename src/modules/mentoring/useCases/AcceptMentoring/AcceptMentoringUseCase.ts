@@ -1,3 +1,4 @@
+import { ICommentsRepository } from '@modules/mentoring/repositories/ICommentsRepository'
 import { IMentoringRepository } from '@modules/mentoring/repositories/IMentoringRepository'
 import { IDateProvider } from '@shared/container/providers/dateProvider/IDateProvider'
 import { AppError } from '@shared/errors/AppError'

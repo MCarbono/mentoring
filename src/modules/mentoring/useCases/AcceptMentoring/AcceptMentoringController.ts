@@ -11,7 +11,7 @@ class AcceptMentoringController {
 
         await acceptMentoringUseCase.execute({ mentor_id, mentoring_id });
 
-        return response.json({message: "Mentoring accept"})
+        return response.status(204).json({message: "Mentoring accept"})
     }
 }
 

@@ -23,7 +23,7 @@ userRoutes.post('/', createUserController.handle)
 
 userRoutes.get('/profile', ensureAuthenticated, showUserProfileController.handle)
 
-userRoutes.patch('/:id/avatar', upload.single('avatar'), updateUserAvatarController.handle)
+userRoutes.patch('/avatar', upload.single('avatar'), ensureAuthenticated, updateUserAvatarController.handle)
 
 userRoutes.post(
     '/mentors/availabilities',  

@@ -1,5 +1,4 @@
 import { IMentoringRepository } from "@modules/mentoring/repositories/IMentoringRepository";
-import { IMentorsAvailabilityRepository } from "@modules/users/repositories/IMentorsAvailabilityRepository";
 import { IUserRepository } from "@modules/users/repositories/IUserRepository";
 import { AppError } from "@shared/errors/AppError";
 import { inject, injectable } from "tsyringe";

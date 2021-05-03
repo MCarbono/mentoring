@@ -1,3 +1,4 @@
+import { ICommentsRepository } from "@modules/mentoring/repositories/ICommentsRepository"
 import { IMentoringRepository } from "@modules/mentoring/repositories/IMentoringRepository"
 import { IUserRepository } from "@modules/users/repositories/IUserRepository"
 import { IDateProvider } from "@shared/container/providers/dateProvider/IDateProvider"
@@ -9,10 +10,11 @@ interface IRequest {
     mentor_id: string;
     user_id: string;
     stars: number;
+    comment: string;
 }
 
 @injectable()
-class CreateMentoringUseCase {
+class CompleteMentoringUseCase {
     constructor(
         @inject("MentoringRepository")
         private mentoringRepository: IMentoringRepository,
@@ -21,10 +23,13 @@ class CreateMentoringUseCase {
         private dateProvider: IDateProvider,
 
         @inject("UsersRepository")
-        private usersRepository: IUserRepository
+        private usersRepository: IUserRepository,
+
+        @inject("CommentsRepository")
+        private commentsRepository: ICommentsRepository,
 
     ){}
-    async execute({mentoring_id, mentor_id, user_id, stars }: IRequest): Promise<void>{
+    async execute({mentoring_id, mentor_id, user_id, stars, comment }: IRequest): Promise<void>{
         const mentoringMentorUser = await this.mentoringRepository.findMentoringMentorUser(
             mentoring_id,
             mentor_id,
@@ -56,9 +61,15 @@ class CreateMentoringUseCase {
 
         await this.mentoringRepository.create(mentoringMentorUser);
         await this.usersRepository.create(mentor)
+        await this.commentsRepository.create({
+            comment,
+            comment_star: String(stars),
+            mentor_id,
+            user_id
+        })
 
         return;
     }
 }
 
-export { CreateMentoringUseCase }
+export { CompleteMentoringUseCase }

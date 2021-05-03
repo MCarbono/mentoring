@@ -5,6 +5,7 @@ import { v4 as uuidV4 } from 'uuid';
 import { Communication } from './Communication';
 import { MentorsAvailability } from './MentorsAvailability';
 import { Skill } from './Skill';
+import { Expose } from 'class-transformer';
 
 @Entity("users")
 class User {
@@ -66,6 +67,15 @@ class User {
 
     @OneToMany(() => Mentoring, mentoring => mentoring.mentor)
     mentoring: Mentoring
+
+    @Expose({ name: "avatar_url "})
+    avatar_url(): string {
+        if(this.avatar != null){
+            return `http://localhost:3333/avatar/${this.avatar}`
+        } else {
+            return '';
+        }
+    }
 
     constructor(){
         if(!this.id){

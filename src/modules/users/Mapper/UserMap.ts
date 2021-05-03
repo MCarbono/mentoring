@@ -1,6 +1,8 @@
 import { IUserResponseDTO } from '../dtos/IUserResponseDTO';
 import { User } from '../infra/typeorm/entities/User';
 
+import { classToClass } from 'class-transformer'
+
 class UserMap {
 
     static toDTO({
@@ -13,15 +15,19 @@ class UserMap {
         total_evaluations,
         stars,
         communications,
-        mentors_availabilities
+        mentors_availabilities,
+        avatar_url,
+        avatar
     }: User): IUserResponseDTO{
-        const user = {
+        const user = classToClass({
             first_name,
             last_name,
             email,
             is_mentor,
-            skills
-        }
+            skills,
+            avatar_url,
+            avatar
+        })
 
         if(is_mentor){
             Object.assign(user, {

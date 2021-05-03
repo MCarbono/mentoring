@@ -32,6 +32,10 @@ class DayjsDateProvider implements IDateProvider {
         const limitDate = dayjs(star_date_utc).subtract(hours, 'hours').toDate()
         return limitDate;
     }
+
+    addDays(days: number): Date {
+        return dayjs().add(days, 'day').toDate()
+    }
 }
 
 export { DayjsDateProvider }

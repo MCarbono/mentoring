@@ -9,6 +9,7 @@ interface ICreateMentoringDTO {
     accepted: boolean;
     refused: boolean;
     refused_info: string;
+    isDone?: boolean;
 }
 
 export { ICreateMentoringDTO }

@@ -11,7 +11,7 @@ class CreateMentoringController {
         const { mentor_id } = request.params;
         const { mentor_availability_id, subject } = request.body;
        
-        const createMentoringUseCase = container.resolve(CreateMentoringUseCase)
+        const createMentoringUseCase = await container.resolve(CreateMentoringUseCase)
 
         await createMentoringUseCase.execute({ user_id, mentor_id, mentor_availability_id, subject })
 

@@ -10,20 +10,23 @@ interface IRequest {
 
 @injectable()
 class AcceptMentoringUseCase {
-
     constructor(
         @inject("MentoringRepository")
         private mentoringRepository: IMentoringRepository,
 
         @inject("DayjsDateProvider")
-        private dateProvider: IDateProvider
+        private dateProvider: IDateProvider,
     ){}
 
-    async execute({ mentor_id, mentoring_id }: IRequest): Promise<void>{
+    async execute({ mentor_id, mentoring_id, }: IRequest): Promise<void>{
         const mentorAndMentoring = await this.mentoringRepository.findMentoringAndMentor(
             mentor_id,
             mentoring_id
         )
+
+        if(!mentorAndMentoring){
+            throw new AppError("Mentoring not found", 404)
+        }
 
         const limitDate = this.dateProvider.limitToAcceptMentoring(mentorAndMentoring.mentors_availability.start_date, 3)
         

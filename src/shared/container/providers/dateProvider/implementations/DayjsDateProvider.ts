@@ -30,7 +30,7 @@ class DayjsDateProvider implements IDateProvider {
     limitToAcceptMentoring(start_date: Date, hours: number): Date {
         const star_date_utc = this.convertToUTC(start_date)
         const limitDate = dayjs(star_date_utc).subtract(hours, 'hours').toDate()
-        return limitDate
+        return limitDate;
     }
 }
 

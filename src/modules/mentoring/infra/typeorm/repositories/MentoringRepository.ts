@@ -11,7 +11,7 @@ class MentoringRepository implements IMentoringRepository {
         this.mentoringRepository = getRepository(Mentoring)
     }
     
-    async create({ id, user_id, mentor_id, mentor_availability_id, subject, accepted, refused, refused_info }: ICreateMentoringDTO): Promise<Mentoring> {
+    async create({ id, user_id, mentor_id, mentor_availability_id, subject, accepted, refused, refused_info, isDone }: ICreateMentoringDTO): Promise<Mentoring> {
         const mentoring = this.mentoringRepository.create({
             id,
             user_id,
@@ -20,7 +20,8 @@ class MentoringRepository implements IMentoringRepository {
             subject,
             accepted,
             refused,
-            refused_info
+            refused_info,
+            isDone
         })
        
         return await this.mentoringRepository.save(mentoring)
@@ -39,6 +40,17 @@ class MentoringRepository implements IMentoringRepository {
             where: {
                 id: mentoring_id,
                 mentor_id
+            },
+            relations: ['mentors_availability']
+        })
+    }
+
+    async findMentoringMentorUser(mentoring_id: string, mentor_id: string, user_id: string): Promise<Mentoring> {
+        return await this.mentoringRepository.findOne({
+            where: {
+                id: mentoring_id,
+                mentor_id,
+                user_id
             },
             relations: ['mentors_availability']
         })

@@ -30,7 +30,8 @@ class UsersRepository implements IUserRepository {
             is_mentor,
             info_mentor,
             avatar,
-            stars
+            stars,
+            total_evaluations
         })
         return await this.repository.save(user)
     }

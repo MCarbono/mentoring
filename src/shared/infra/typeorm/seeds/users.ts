@@ -18,7 +18,7 @@ async function create(){
 
     await connection.query(`
         INSERT INTO USERS(id,first_name,last_name,email,password, avatar, is_mentor, info_mentor, stars, total_evaluations, created_at, updated_at)
-        VALUES('${uuid}', 'Albino', 'Vieira', 'albino@gmail.com', '${passwordHash}', null, true, null, 0, 0, 'now()', 'now()')
+        VALUES('${uuid}', 'Albino', 'Vieira', 'albino@gmail.com', '${passwordHash}', null, true, 'Mentor top', 0, 0, 'now()', 'now()')
     `)
 
     await connection.close()

@@ -48,6 +48,7 @@ class CreateUserUseCase {
         }
 
         let communications: Communication[];
+        console.log(communications)
         if(communications_id){
              communications = await this.communicationsRepository.findByIds(communications_id)
 
@@ -100,8 +101,6 @@ class CreateUserUseCase {
 
             return user;
         }
-
-        return
     }
 }
 

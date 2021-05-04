@@ -10,6 +10,7 @@ interface IUserRepository {
     insertPivotTableCommunications({user_id, communication_id}: IIinsertPivotTableCommunications): Promise<void>
     profile(id: string): Promise<User>
     findById(id: string): Promise<User>
+    findMentor(skills_id: string[]): Promise<User>
 }
 
 export { IUserRepository }

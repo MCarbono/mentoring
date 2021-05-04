@@ -2,8 +2,9 @@ import { ICreateUserDTO } from "@modules/users/dtos/ICreateUserDTO";
 import { IIinsertPivotTableCommunications } from "@modules/users/dtos/IInsertPivotTableCommunications";
 import { IInsertPivotTableSkills } from "@modules/users/dtos/IInsertPivotTableSkills";
 import { IUserRepository } from "@modules/users/repositories/IUserRepository";
-import { getRepository, Repository } from "typeorm";
+import { getRepository, In, Repository } from "typeorm";
 import { User } from "../entities/User";
+import { SkillsRepository } from "./SkillsRepository";
 
 
 class UsersRepository implements IUserRepository {
@@ -57,15 +58,47 @@ class UsersRepository implements IUserRepository {
     async profile(id: string): Promise<User> {
         const user = await this.repository.findOne({
             where: {id},
-            relations: ['skills', 'communications', 'mentors_availabilities']
+            relations: ['skills', 'communications', 'mentors_availabilities'],
         })
         
-        return user
+        return user;
     }
 
     async findById(id: string): Promise<User> {
         return await this.repository.findOne({id})
     }   
+
+    async findMentor(skills_id: string[]): Promise<User> {
+        /*const mentors = this.repository.find({
+            join: {
+                alias: "users",
+                leftJoinAndSelect: {
+                    skill: "users.skills",
+                }
+            },
+            where: {
+                is_mentor: true,            
+            },
+          
+        })*/
+
+        /*const mentors = await this.repository
+            .createQueryBuilder("users")
+            .leftJoinAndSelect('users.skills', 'skill')
+            .where("is_mentor = true")
+            .andWhere("skill.id IN (:...ids)", { ids: skills_id })
+            .getMany()*/
+
+            //https://stackoverflow.com/questions/39011593/postgresql-get-matched-value-of-array-field-in-the-result
+
+            const mentors = await this.repository.query(`
+                SELECT users.*, skills.* from users
+                INNER JOIN skills ON users.skill_id = skills.user_id
+                WHERE ARRAY [$1]::varchar[]
+            `, [skills_id])
+
+        return mentors;
+    }
 }
 
 export { UsersRepository }

@@ -15,7 +15,6 @@ class CreateUserController {
           communications_id
         } = request.body;
 
-        console.log(skills_id)
         const createUserUseCase = container.resolve(CreateUserUseCase)
 
         const user = await createUserUseCase.execute({ 

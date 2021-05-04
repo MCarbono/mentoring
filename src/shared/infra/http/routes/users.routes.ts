@@ -10,6 +10,7 @@ import multer from 'multer';
 import uploadConfig  from '@config/upload';
 
 import { Router } from 'express';
+import { FindMentorController } from '@modules/users/useCases/findMentor/FindMentorController';
 
 const userRoutes = Router();
 const upload = multer(uploadConfig)
@@ -18,8 +19,10 @@ const createUserController = new CreateUserController()
 const showUserProfileController = new ShowUserProfileController()
 const updateUserAvatarController = new UpdateUserAvatarController()
 const createMentorAvailabilitiesController = new CreateMentorAvailabilitiesController()
+const findMentorController = new FindMentorController()
 
 userRoutes.post('/', createUserController.handle)
+userRoutes.get('/find_mentors', findMentorController.handle)
 
 userRoutes.get('/profile', ensureAuthenticated, showUserProfileController.handle)
 

@@ -18,16 +18,17 @@ class Comment {
     @Column()
     user_id: string;
 
+    @Column()
+    mentor_id: string;
+    
+    //Verificar problema seed erro Comments
     @ManyToOne(() => User)
     @JoinColumn({ name: "user_id"})
     user: User
 
-    @Column()
-    mentor_id: string;
-
     @ManyToOne(() => User)
     @JoinColumn({ name: "mentor_id"})
-    mentor: User
+    mentor: User 
 
     @CreateDateColumn()
     created_at: Date

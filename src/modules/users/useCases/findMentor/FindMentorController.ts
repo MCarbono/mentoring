@@ -1,4 +1,4 @@
-import { IUserResponseDTO } from '@modules/users/dtos/IUserResponseDTO';
+
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 import { FindMentorUseCase } from './FindMentorUseCase';

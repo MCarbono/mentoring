@@ -29,6 +29,7 @@ class AuthenticateUserUseCase {
 
     async execute(email: string, password: string): Promise<ITokenResponse>{
         const user = await this.usersRepository.findByEmail(email)
+        
         const { expires_in_token,
                 token_secret , 
                 expires_in_refresh_token,
@@ -45,8 +46,9 @@ class AuthenticateUserUseCase {
         if(!passwordHash){
             throw new AppError("Email or password incorrect", 401);
         }
-
-        const token = sign({}, token_secret, {
+        
+        const { is_mentor } = user; 
+        const token = sign({ is_mentor }, token_secret, {
             subject: user.id,
             expiresIn: expires_in_token
         })

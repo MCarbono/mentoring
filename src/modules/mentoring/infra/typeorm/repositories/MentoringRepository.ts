@@ -55,6 +55,22 @@ class MentoringRepository implements IMentoringRepository {
             relations: ['mentors_availability']
         })
     }
+
+    async findMentoringByUser(id: string): Promise<Mentoring[]> {
+        return await this.mentoringRepository.find({
+            where: {
+                user_id: id
+            },
+        })
+    }
+
+    async findMentoringByMentor(id: string): Promise<Mentoring[]> {
+        return await this.mentoringRepository.find({
+            where: {
+                mentor_id: id
+            }
+        })
+    }
 }
 
 export { MentoringRepository }

@@ -10,7 +10,7 @@ import multer from 'multer';
 import uploadConfig  from '@config/upload';
 
 import { Router } from 'express';
-import { FindMentorController } from '@modules/users/useCases/findMentor/FindMentorController';
+import { FindMentorController } from '@modules/users/useCases/FindMentor/FindMentorController';
 
 const userRoutes = Router();
 const upload = multer(uploadConfig)

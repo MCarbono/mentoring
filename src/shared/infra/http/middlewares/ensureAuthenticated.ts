@@ -5,6 +5,7 @@ import { verify } from 'jsonwebtoken'
 
 interface Payload {
     sub: string;
+    is_mentor: boolean;
 }
 
 export async function ensureAuthenticated(request: Request, response: Response, next: NextFunction) {
@@ -17,10 +18,11 @@ export async function ensureAuthenticated(request: Request, response: Response, 
     const [, token] = authHeader.split(" ");
 
     try {
-        const { sub : user_id} = verify(token, auth.token_secret) as Payload
+        const { sub : user_id, is_mentor } = verify(token, auth.token_secret) as Payload
 
         request.user = {
-            id: user_id
+            id: user_id,
+            is_mentor
         }
 
         next()

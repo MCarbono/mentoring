@@ -1,7 +1,6 @@
 import { ICreateUsersTokensDTO } from "../dtos/ICreateUsersTokensDTO";
 import { UsersTokens } from "../infra/typeorm/entities/UsersTokens";
 
-
 interface IUsersTokensRepository {
     create(data: ICreateUsersTokensDTO): Promise<UsersTokens>
     findByIdAndToken(user_id: string, refresh_token: string): Promise<UsersTokens>

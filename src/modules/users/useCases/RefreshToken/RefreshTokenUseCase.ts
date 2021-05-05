@@ -1,4 +1,5 @@
 import auth from "@config/auth";
+import { IUserRepository } from "@modules/users/repositories/IUserRepository";
 import { IUsersTokensRepository } from "@modules/users/repositories/IUsersTokensRepository";
 import { IDateProvider } from "@shared/container/providers/dateProvider/IDateProvider";
 import { AppError } from "@shared/errors/AppError";
@@ -23,7 +24,10 @@ class RefreshTokenUseCase {
         private usersTokensRepository: IUsersTokensRepository,
 
         @inject("DayjsDateProvider")
-        private dateProvider: IDateProvider
+        private dateProvider: IDateProvider,
+
+        @inject("UsersRepository")
+        private usersRepository: IUserRepository,
     ){}
 
     async execute(token: string): Promise<IResponse>{
@@ -52,7 +56,9 @@ class RefreshTokenUseCase {
             user_id
         })
 
-        const newToken = sign({}, auth.expires_in_token, {
+        const { is_mentor } = await this.usersRepository.findById(user_id)
+
+        const newToken = sign({ is_mentor }, auth.expires_in_token, {
             subject: user_id,
             expiresIn: auth.expires_in_token
         })

@@ -3,9 +3,8 @@ import { IIinsertPivotTableCommunications } from "@modules/users/dtos/IInsertPiv
 import { IInsertPivotTableSkills } from "@modules/users/dtos/IInsertPivotTableSkills";
 import { IUserRepository } from "@modules/users/repositories/IUserRepository";
 import { getRepository, In, Repository } from "typeorm";
+import { Skill } from "../entities/Skill";
 import { User } from "../entities/User";
-import { SkillsRepository } from "./SkillsRepository";
-
 
 class UsersRepository implements IUserRepository {
     private repository: Repository<User>
@@ -13,7 +12,7 @@ class UsersRepository implements IUserRepository {
     constructor(){
         this.repository = getRepository(User)
     }
-    
+
     async create({id, 
         first_name, 
         last_name, email, 
@@ -68,7 +67,7 @@ class UsersRepository implements IUserRepository {
         return await this.repository.findOne({id})
     }   
 
-    async findMentor(skills_id: string[]): Promise<User> {
+    async findMentor(skills_id: Skill[]): Promise<User> {
         /*const mentors = this.repository.find({
             join: {
                 alias: "users",
@@ -82,22 +81,35 @@ class UsersRepository implements IUserRepository {
           
         })*/
 
-        /*const mentors = await this.repository
+        const mentors = await this.repository
             .createQueryBuilder("users")
             .leftJoinAndSelect('users.skills', 'skill')
+            .leftJoinAndSelect('users.communications', 'communication')
+            .select(['users.avatar','users.first_name','skill.name', 'communication.name', 'users.stars'])
             .where("is_mentor = true")
             .andWhere("skill.id IN (:...ids)", { ids: skills_id })
-            .getMany()*/
+            .getMany()
 
             //https://stackoverflow.com/questions/39011593/postgresql-get-matched-value-of-array-field-in-the-result
 
-            const mentors = await this.repository.query(`
+            /*const mentors = await this.repository.query(`
                 SELECT users.*, skills.* from users
                 INNER JOIN skills ON users.skill_id = skills.user_id
                 WHERE ARRAY [$1]::varchar[]
-            `, [skills_id])
+            `, [skills_id])*/
 
         return mentors;
+    }
+
+    async findSkills(id: string): Promise<Skill[]> {
+        const skills = await this.repository
+            .createQueryBuilder("users")
+            .leftJoinAndSelect('users.skills', 'skill')
+            .where('users.id = :id', { id })
+            .select(['skill.id', 'skill.name'])
+            .getRawMany()
+
+        return skills
     }
 }
 

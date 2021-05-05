@@ -12,19 +12,10 @@ class FindMentoringUseCase {
         @inject("MentoringRepository")
         private mentoringRepository: IMentoringRepository,
 
-        @inject("UsersRepository")
-        private usersRepository: IUserRepository
-
     ){}
 
     async execute(is_mentor: boolean, id: string): Promise<Mentoring[]>{
-        
-        const user = await this.usersRepository.findById(id)
-        
-        if(!user){
-            throw new AppError("User does not exists");
-        }
-        
+         
         if(is_mentor){
             return await this.mentoringRepository.findMentoringByMentor(id);
             

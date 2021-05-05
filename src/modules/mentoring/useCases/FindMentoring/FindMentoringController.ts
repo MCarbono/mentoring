@@ -1,4 +1,3 @@
-import { Mentoring } from '@modules/mentoring/infra/typeorm/entities/Mentoring';
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 import { FindMentoringUseCase } from './FindMentoringUseCase';

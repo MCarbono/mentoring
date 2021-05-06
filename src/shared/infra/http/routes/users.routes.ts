@@ -12,6 +12,7 @@ import uploadConfig  from '@config/upload';
 import { Router } from 'express';
 import { FindMentorController } from '@modules/users/useCases/FindMentor/FindMentorController';
 import { LoadUserSkillsController } from '@modules/users/useCases/LoadUserSkills/LoadUserSkillsController';
+import { RequestMentoringController } from '@modules/users/useCases/RequestMentoring/RequestMentoringController';
 
 const userRoutes = Router();
 const upload = multer(uploadConfig)
@@ -22,16 +23,17 @@ const updateUserAvatarController = new UpdateUserAvatarController()
 const createMentorAvailabilitiesController = new CreateMentorAvailabilitiesController()
 const findMentorController = new FindMentorController()
 const loadUserSkillsController = new LoadUserSkillsController()
-
+const requestMentoringController = new RequestMentoringController()
 
 //User anb Mentor routes
 userRoutes.post('/', createUserController.handle)
 userRoutes.patch('/avatar', upload.single('avatar'), ensureAuthenticated, updateUserAvatarController.handle)
 
 //User router
-userRoutes.get('/find_mentors', findMentorController.handle)
-userRoutes.get('/profile', ensureAuthenticated, showUserProfileController.handle)
 userRoutes.get('/skills', ensureAuthenticated, loadUserSkillsController.handle)
+userRoutes.get('/find_mentors', ensureAuthenticated, findMentorController.handle)
+userRoutes.get('/:mentor_id/request_mentoring', ensureAuthenticated, requestMentoringController.handle)
+userRoutes.get('/profile', ensureAuthenticated, showUserProfileController.handle)
 
 //Mentor routes
 userRoutes.post(

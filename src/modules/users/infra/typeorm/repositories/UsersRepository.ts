@@ -1,8 +1,9 @@
 import { ICreateUserDTO } from "@modules/users/dtos/ICreateUserDTO";
 import { IIinsertPivotTableCommunications } from "@modules/users/dtos/IInsertPivotTableCommunications";
 import { IInsertPivotTableSkills } from "@modules/users/dtos/IInsertPivotTableSkills";
+import { IRequestMentoringByUser } from "@modules/users/dtos/IRequestMentoringByUser";
 import { IUserRepository } from "@modules/users/repositories/IUserRepository";
-import { getRepository, In, Repository } from "typeorm";
+import { getRepository, Repository } from "typeorm";
 import { Skill } from "../entities/Skill";
 import { User } from "../entities/User";
 
@@ -12,8 +13,9 @@ class UsersRepository implements IUserRepository {
     constructor(){
         this.repository = getRepository(User)
     }
-
-    async create({id, 
+   
+    async create({
+        id, 
         first_name, 
         last_name, email, 
         password, is_mentor, 
@@ -57,7 +59,7 @@ class UsersRepository implements IUserRepository {
     async profile(id: string): Promise<User> {
         const user = await this.repository.findOne({
             where: {id},
-            relations: ['skills', 'communications', 'mentors_availabilities'],
+            relations: ['skills', 'communications', 'mentors_availabilities', 'comments'],
         })
         
         return user;
@@ -110,6 +112,34 @@ class UsersRepository implements IUserRepository {
             .getRawMany()
 
         return skills
+    }
+
+    async requestMentoringByUser(mentor_id: string): Promise<IRequestMentoringByUser> {
+        const mentor = await this.repository
+            .createQueryBuilder("users")
+            .leftJoinAndSelect("users.communications", 'communication')
+            .leftJoinAndSelect("users.mentors_availabilities", 'mentors_availabilities')
+            .leftJoinAndSelect("users.comments", 'comments')
+            .where('users.id = :id', { id: mentor_id })
+            .select([
+                "users.id", "users.first_name", "users.last_name", 
+                "users.avatar", "users.info_mentor", 
+                "users.is_mentor", "communication",
+                "mentors_availabilities.id", "mentors_availabilities.start_date",
+                "mentors_availabilities.end_date", "comments.id", "comments.comment",
+                "comments.comment_star"
+            ])
+            .getOne();
+
+        const mentorTotalMentoring = await this.repository.query(`
+            SELECT count('isDone') as total_mentoring from mentoring 
+            WHERE mentor_id=$1
+        `, [mentor_id])
+
+        return {
+            mentor,
+            mentorTotalMentoring
+        };
     }
 }
 

@@ -6,7 +6,7 @@ import { Communication } from './Communication';
 import { MentorsAvailability } from './MentorsAvailability';
 import { Skill } from './Skill';
 import { Expose } from 'class-transformer';
-
+import { Comment } from '@modules/mentoring/infra/typeorm/entities/Comment';
 @Entity("users")
 class User {
 
@@ -68,7 +68,10 @@ class User {
     @OneToMany(() => Mentoring, mentoring => mentoring.mentor)
     mentoring: Mentoring
 
-    @Expose({ name: "avatar_url "})
+    @OneToMany(() => Comment, comment => comment.mentor)
+    comments: Comment
+
+    @Expose({ name: "avatar_url"})
     avatar_url(): string {
         if(this.avatar != null){
             return `http://localhost:3333/avatar/${this.avatar}`

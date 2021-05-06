@@ -26,7 +26,7 @@ class Comment {
     @JoinColumn({ name: "user_id"})
     user: User
 
-    @ManyToOne(() => User)
+    @ManyToOne(() => User, user => user.comments)
     @JoinColumn({ name: "mentor_id"})
     mentor: User 
 

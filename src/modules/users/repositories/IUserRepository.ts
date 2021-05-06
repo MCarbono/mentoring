@@ -1,6 +1,7 @@
 import { ICreateUserDTO } from "../dtos/ICreateUserDTO";
 import { IIinsertPivotTableCommunications } from "../dtos/IInsertPivotTableCommunications";
 import { IInsertPivotTableSkills } from "../dtos/IInsertPivotTableSkills";
+import { IRequestMentoringByUser } from "../dtos/IRequestMentoringByUser";
 import { Skill } from "../infra/typeorm/entities/Skill";
 import { User } from "../infra/typeorm/entities/User";
 
@@ -13,6 +14,7 @@ interface IUserRepository {
     findById(id: string): Promise<User>
     findMentor(skills_id: Skill[]): Promise<User>
     findSkills(id: string): Promise<Skill[]>
+    requestMentoringByUser(mentor_id: string): Promise<IRequestMentoringByUser>
 }
 
 export { IUserRepository }

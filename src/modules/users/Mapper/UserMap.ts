@@ -4,7 +4,6 @@ import { User } from '../infra/typeorm/entities/User';
 import { classToClass } from 'class-transformer'
 
 class UserMap {
-
     static toDTO({
         first_name,
         last_name,
@@ -17,7 +16,8 @@ class UserMap {
         communications,
         mentors_availabilities,
         avatar_url,
-        avatar
+        avatar,
+        comments
     }: User): IUserResponseDTO{
         const user = classToClass({
             first_name,
@@ -35,7 +35,8 @@ class UserMap {
                 total_evaluations,
                 stars,
                 communications,
-                mentors_availabilities
+                mentors_availabilities,
+                comments
             })
         }
         return user;

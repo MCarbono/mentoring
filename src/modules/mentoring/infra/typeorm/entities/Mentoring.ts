@@ -51,6 +51,9 @@ class Mentoring {
     @Column()
     accepted: boolean;
 
+    @Column()
+    communication_id: string;
+
     constructor(){
         if(!this.id){
             this.id = uuidV4();

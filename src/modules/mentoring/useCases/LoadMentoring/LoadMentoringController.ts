@@ -1,12 +1,13 @@
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
-import { FindMentoringUseCase } from './FindMentoringUseCase';
+import { LoadMentoringUseCase } from './LoadMentoringUseCase';
 
-class FindMentoringController {
+class LoadMentoringController {
     async handle(request: Request, response: Response):Promise<Response>{
+        //load home pages mentor/user
         const { is_mentor, id } = request.user;
         
-        const findMentoringUseCase = container.resolve(FindMentoringUseCase);
+        const findMentoringUseCase = container.resolve(LoadMentoringUseCase);
 
         const listMentoring = await findMentoringUseCase.execute(is_mentor, id);
        
@@ -14,4 +15,4 @@ class FindMentoringController {
     }
 }
 
-export { FindMentoringController }
+export { LoadMentoringController }

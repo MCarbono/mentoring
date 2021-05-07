@@ -7,6 +7,7 @@ import { inject, injectable} from 'tsyringe'
 interface IRequest {
     mentor_id: string;
     mentoring_id: string;
+    user_id: string;
 }
 
 @injectable()
@@ -19,12 +20,13 @@ class AcceptMentoringUseCase {
         private dateProvider: IDateProvider,
     ){}
 
-    async execute({ mentor_id, mentoring_id, }: IRequest): Promise<void>{
-        const mentorAndMentoring = await this.mentoringRepository.findMentoringAndMentor(
+    async execute({ mentoring_id, mentor_id, user_id}: IRequest): Promise<void>{
+        const mentorAndMentoring = await this.mentoringRepository.findMentoringMentorUser(
+            mentoring_id,
             mentor_id,
-            mentoring_id
+            user_id
         )
-
+        
         if(!mentorAndMentoring){
             throw new AppError("Mentoring not found", 404)
         }

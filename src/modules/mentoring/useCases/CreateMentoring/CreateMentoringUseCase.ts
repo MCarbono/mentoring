@@ -8,6 +8,7 @@ interface IRequest {
     user_id: string;
     mentor_availability_id: string;
     subject: string;
+    communication_id: string;
 }
 
 @injectable()
@@ -21,7 +22,7 @@ class CreateMentoringUseCase {
 
     ){}
 
-    async execute({ mentor_id, user_id, mentor_availability_id, subject }:IRequest): Promise<void>{
+    async execute({ mentor_id, user_id, mentor_availability_id, subject, communication_id }:IRequest): Promise<void>{
         const mentor = await this.usersRepository.findById(mentor_id)
 
         if(!mentor){
@@ -41,7 +42,8 @@ class CreateMentoringUseCase {
             mentor_availability_id,
             mentor_id,
             subject,
-            user_id
+            user_id,
+            communication_id
         })
 
     }

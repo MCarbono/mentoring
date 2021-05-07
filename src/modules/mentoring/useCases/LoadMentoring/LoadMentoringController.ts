@@ -7,9 +7,9 @@ class LoadMentoringController {
         //load home pages mentor/user
         const { is_mentor, id } = request.user;
         
-        const findMentoringUseCase = container.resolve(LoadMentoringUseCase);
+        const loadMentoringUseCase = container.resolve(LoadMentoringUseCase);
 
-        const listMentoring = await findMentoringUseCase.execute(is_mentor, id);
+        const listMentoring = await loadMentoringUseCase.execute(is_mentor, id);
        
         return response.json(listMentoring);
     }

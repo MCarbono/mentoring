@@ -68,6 +68,9 @@ class User {
     @OneToMany(() => Mentoring, mentoring => mentoring.mentor)
     mentoring: Mentoring
 
+    @OneToMany(() => Mentoring, mentoring => mentoring.user)
+    user: User
+
     @OneToMany(() => Comment, comment => comment.mentor)
     comments: Comment
 

@@ -10,7 +10,7 @@ interface ICreateMentoringDTO {
     refused?: boolean;
     refused_info?: string;
     isDone?: boolean;
-    communication_id: string;
+    communication: string;
 }
 
 export { ICreateMentoringDTO }

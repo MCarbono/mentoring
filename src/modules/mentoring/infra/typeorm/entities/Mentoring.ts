@@ -5,7 +5,6 @@ import { v4 as uuidV4} from 'uuid';
 
 @Entity("mentoring")
 class Mentoring {
-
     @PrimaryColumn()
     id?: string;
 
@@ -30,11 +29,11 @@ class Mentoring {
     @Column()
     mentor_availability_id: string;
 
-    @ManyToOne(() => User)
+    @ManyToOne(() => User, user => user.mentoring)
     @JoinColumn({name: "user_id"})
     user: User;
 
-    @ManyToOne(() => User)
+    @ManyToOne(() => User, user => user.mentoring)
     @JoinColumn({name: "mentor_id"})
     mentor: User;
 
@@ -52,7 +51,7 @@ class Mentoring {
     accepted: boolean;
 
     @Column()
-    communication_id: string;
+    communication: string;
 
     constructor(){
         if(!this.id){

@@ -4,12 +4,11 @@ import { AcceptMentoringUseCase } from './AcceptMentoringUseCase';
 
 class AcceptMentoringController {
     async handle(request: Request, response: Response): Promise<Response>{
-        const { id: mentor_id } = request.user;
-        const { mentoring_id, user_id } = request.params;
-        console.log(mentoring_id)
+        const { mentoring_id } = request.params;
+        
         const acceptMentoringUseCase = container.resolve(AcceptMentoringUseCase)
 
-        await acceptMentoringUseCase.execute({ mentoring_id, mentor_id, user_id });
+        await acceptMentoringUseCase.execute(mentoring_id);
 
         return response.status(204).json({message: "Mentoring accept"})
     }

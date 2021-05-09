@@ -53,7 +53,6 @@ container.registerSingleton<ICommentsRepository>(
     CommentsRepository
 )
 
-
 container.registerSingleton<IUsersTokensRepository>(
     "UsersTokensRepository",
     UsersTokensRepository

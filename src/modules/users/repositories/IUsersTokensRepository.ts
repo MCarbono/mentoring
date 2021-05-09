@@ -6,6 +6,7 @@ interface IUsersTokensRepository {
     findByIdAndToken(user_id: string, refresh_token: string): Promise<UsersTokens>
     deleteById(id: string): Promise<void>
     findTokenByUserId(user_id: string): Promise<UsersTokens>
+    findByTokenUuid(token: string): Promise<UsersTokens>
 }
 
 export { IUsersTokensRepository }

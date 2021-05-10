@@ -1,5 +1,5 @@
 <style>
-    .container {
+     .container {
         width: 800px;
         font-family: Arial, Helvetica, sans-serif;
         font-size: 16px;
@@ -14,15 +14,12 @@
     }
 </style>
 
+
 <div class="container">
-    <span>Olá, {{ name }}, você possui uma solicitação de mentoria.</span>
 
-    <span>Para verificá-la, acesse o link:  
-        <a href={{link}}>{{link}}</a>
-    </span>
+    <span>Olá, {{user_name}}</span>
 
-    <br />
-    <br />
+    <span>Sua mentoria no dia {{mentoringDay}} às {{mentoringTime}}horas solicitada para o mentor {{mentor_name}} foi aceita.</span>
 
-    <h3>Equipe | <strong>Mentoring</strong></h3>
+    <h3>Equipe | Mentoring</h3>
 </div>

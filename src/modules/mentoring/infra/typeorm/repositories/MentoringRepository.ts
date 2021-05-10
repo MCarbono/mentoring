@@ -111,7 +111,15 @@ class MentoringRepository implements IMentoringRepository {
     }
 
     async findMentoringById(id: string): Promise<Mentoring> {
-        return await this.mentoringRepository.findOne({ id })
+        return await this.mentoringRepository.findOne({
+            where: {
+                id
+            },
+            relations: ['mentors_availability', 'user', 'mentor']
+        })
+           
+            
+        
     }
 }
 

@@ -8,6 +8,8 @@ interface IDateProvider {
     limitToAcceptMentoring(start_date: Date, hours: number): Date;
     addDays(days: number): Date;
     addHours(hours: number): Date;
+    convertTimestampToDate(date: Date): Date;
+    convertTimestampToHoursMinutes(date: Date): Date;
 }
 
 export { IDateProvider }

@@ -6,7 +6,7 @@ import utc from 'dayjs/plugin/utc'
 dayjs.extend(utc);
 
 class DayjsDateProvider implements IDateProvider {
-   
+    
     dateNow(): Date {
         return dayjs().toDate()
     }
@@ -39,6 +39,15 @@ class DayjsDateProvider implements IDateProvider {
     addHours(hours: number): Date {
         return dayjs().add(hours, 'hours').toDate()
     }
+
+    convertTimestampToDate(date: Date): Date {
+        return dayjs(date).format('DD/MM/YYYY');
+    }
+
+    convertTimestampToHoursMinutes(date: Date): Date {
+        return dayjs(date).format("HH:mm")
+    }
+    
     
 }
 

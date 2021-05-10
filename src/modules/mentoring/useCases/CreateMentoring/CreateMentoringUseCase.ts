@@ -43,7 +43,7 @@ class CreateMentoringUseCase {
             throw new AppError("Mentoring is already registered. Wait for mentor's approvement")
         }
 
-        await this.mentoringRepository.create({
+        const mentoring = await this.mentoringRepository.create({
             mentor_availability_id,
             mentor_id,
             subject,
@@ -52,7 +52,8 @@ class CreateMentoringUseCase {
         })
 
         const variables = {
-            name: mentor.first_name
+            name: mentor.first_name,
+            link: `${process.env.REQUESTED_MENTORING_URL_MAIL}/${mentoring.id}/accept/${user_id}`
         }
 
         await this.mailProvider.sendMail(

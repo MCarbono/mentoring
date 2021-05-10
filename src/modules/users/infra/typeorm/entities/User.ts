@@ -6,7 +6,7 @@ import { Communication } from './Communication';
 import { MentorsAvailability } from './MentorsAvailability';
 import { Skill } from './Skill';
 import { Expose } from 'class-transformer';
-import { Comment } from '@modules/mentoring/infra/typeorm/entities/Comment';
+import { Comment } from '../../../../mentoring/infra/typeorm/entities/Comment';
 @Entity("users")
 class User {
 

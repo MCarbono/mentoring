@@ -8,6 +8,19 @@ async function create(){
 
     let uuid = uuidV4()
 
+    await connection.query(
+        `INSERT INTO communications(id, name)
+        values('${uuid}', 'google meeting')`
+    )
+
+    uuid = uuidV4()
+
+    await connection.query(
+        `INSERT INTO skills(id, name)
+        VALUES('${uuid}', 'Banco de dados Relacional')`
+    )
+    
+    uuid = uuidV4()
 
     await connection.query(`
         INSERT INTO USERS(id,first_name,last_name,email,password, avatar, is_mentor, info_mentor, stars, total_evaluations, created_at, updated_at)
@@ -20,8 +33,39 @@ async function create(){
         INSERT INTO USERS(id,first_name,last_name,email,password, avatar, is_mentor, info_mentor, stars, total_evaluations, created_at, updated_at)
         VALUES('${uuid}', 'Albino', 'Vieira', 'albino@gmail.com', '${passwordHash}', null, true, 'Mentor top', 0, 0, 'now()', 'now()')
     `)
+    
+    const user = await connection.query(`
+        SELECT users.id from users WHERE first_name = 'Marcelo'
+    `)
 
-    await connection.close()
+    const mentor = await connection.query(`
+        SELECT users.id from users WHERE first_name = 'Albino'
+    `)
+
+    const skill = await connection.query(`
+        SELECT skills.id from skills WHERE name = 'Banco de dados Relacional'
+    `)
+
+    const communication = await connection.query(`
+        SELECT communications.id from communications WHERE name = 'google meeting'
+    `)
+
+    await connection.query(`
+        INSERT INTO users_skills(user_id, skill_id)
+        VALUES('${user[0].id}', '${skill[0].id}')
+    `)
+
+    await connection.query(`
+        INSERT INTO users_skills(user_id, skill_id)
+        VALUES('${mentor[0].id}', '${skill[0].id}')
+    `)
+
+    await connection.query(`
+        INSERT INTO mentors_communications(mentor_id, communication_id)
+        VALUES ('${mentor[0].id}', '${communication[0].id}') 
+    `)   
+
+    await connection.close();
 }
 
 create().then(() => console.log("Users created"))

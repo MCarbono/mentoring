@@ -12,7 +12,7 @@ class DeleteMentoringController {
 
         await deleteMentoringUseCase.execute({mentor_id, mentoring_id, refused_info})
         
-        return response.json({ message: "Mentoring refused"})
+        return response.status(204).json({ message: "Mentoring refused"})
     }
 }
 

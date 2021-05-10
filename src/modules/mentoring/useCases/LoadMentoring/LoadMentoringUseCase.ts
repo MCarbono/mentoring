@@ -13,7 +13,6 @@ class LoadMentoringUseCase {
     ){}
 
     async execute(is_mentor: boolean, id: string): Promise<Mentoring[] | ILoadMentoringByMentor>{
-         
         if(is_mentor){
             return await this.mentoringRepository.loadMentoringByMentor(id);
         }

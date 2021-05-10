@@ -43,7 +43,7 @@ class MentoringRepository implements IMentoringRepository {
                 id: mentoring_id,
                 mentor_id
             },
-            relations: ['mentors_availability']
+            relations: ['mentors_availability', 'user', 'mentor']
         })
     }
 

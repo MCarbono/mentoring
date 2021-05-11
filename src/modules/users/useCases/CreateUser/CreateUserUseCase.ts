@@ -14,9 +14,9 @@ interface IRequest {
     email: string, 
     password: string, 
     is_mentor: boolean, 
-    info_mentor: string,
-    skills_id: Skill[],
-    communications_id: Communication[]
+    info_mentor?: string,
+    skills_id?: Skill[],
+    communications_id?: Communication[]
 }
 
 @injectable()
@@ -28,8 +28,8 @@ class CreateUserUseCase {
         @inject("SkillsRepository")
         private skillsRepository: ISkillsRepository,
 
-        @inject("CommunicationsRepository")
-        private communicationsRepository: ICommunicationsRepository
+        // @inject("CommunicationsRepository")
+        // private communicationsRepository: ICommunicationsRepository
     ){}
 
     async execute({ first_name, last_name, email, password, is_mentor, skills_id, info_mentor, communications_id }: IRequest): Promise<User>{
@@ -41,21 +41,21 @@ class CreateUserUseCase {
 
         const passwordHash = await hash(password, 8)
 
-        const skills = await this.skillsRepository.findByIds(skills_id)
+       const skills = await this.skillsRepository.findByIds(skills_id)
 
         if(skills.length !== skills_id.length){
             throw new AppError("One or more skills does not exists!")
         }
 
-        let communications: Communication[];
-        console.log(communications)
-        if(communications_id){
+        //let communications: Communication[];
+        
+        /*if(communications_id){
              communications = await this.communicationsRepository.findByIds(communications_id)
 
             if(communications.length !== communications_id.length){
                 throw new AppError("One or more communications does not exists!")
             }
-        }
+        }*/
         
         if(!is_mentor){
             const user = await this.usersRepository.create({
@@ -65,6 +65,8 @@ class CreateUserUseCase {
                 password: passwordHash,
                 is_mentor,
             })
+
+            console.log(user)
 
             skills.map(async skill => {
                 await this.usersRepository.insertPivotTableSkills({
@@ -85,19 +87,19 @@ class CreateUserUseCase {
                 info_mentor
             })
 
-            skills.map(async skill => {
+            /*skills.map(async skill => {
                 await this.usersRepository.insertPivotTableSkills({
                     user_id: user.id,
                     skill_id: skill.id
                 })
-            })
+            })*/
 
-            communications.map(async communication => {
+            /*communications.map(async communication => {
                 await this.usersRepository.insertPivotTableCommunications({
                     user_id: user.id,
                     communication_id: communication.id
                 })
-            })
+            })*/
 
             return user;
         }

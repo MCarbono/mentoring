@@ -9,6 +9,9 @@ class CommunicationsRepository implements ICommunicationsRepository {
     constructor(){
         this.communicationsRepository = getRepository(Communication)
     }
+    create(name: string): Promise<Communication> {
+        throw new Error("Method not implemented.");
+    }
 
     async findByIds(communications_id: Communication[]): Promise<Communication[]> {
         return await this.communicationsRepository.findByIds(communications_id)

@@ -34,7 +34,7 @@ class CreateUserUseCase {
 
     async execute({ first_name, last_name, email, password, is_mentor, skills_id, info_mentor, communications_id }: IRequest): Promise<User>{
         const userExists = await this.usersRepository.findByEmail(email)
-
+        
         if(userExists){
             throw new AppError("User already exists!")
         }
@@ -42,7 +42,7 @@ class CreateUserUseCase {
         const passwordHash = await hash(password, 8)
 
        const skills = await this.skillsRepository.findByIds(skills_id)
-
+        
         if(skills.length !== skills_id.length){
             throw new AppError("One or more skills does not exists!")
         }
@@ -65,8 +65,6 @@ class CreateUserUseCase {
                 password: passwordHash,
                 is_mentor,
             })
-
-            console.log(user)
 
             skills.map(async skill => {
                 await this.usersRepository.insertPivotTableSkills({

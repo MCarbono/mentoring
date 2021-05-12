@@ -32,7 +32,7 @@ class SkillsRepositoryInMemory implements ISkillsRepository{
                }
            }
        }
-       console.log(teste)
+       
        return teste;
         
     }

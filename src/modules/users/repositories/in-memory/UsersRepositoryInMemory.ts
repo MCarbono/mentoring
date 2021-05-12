@@ -6,15 +6,14 @@ import { Skill } from "@modules/users/infra/typeorm/entities/Skill";
 import { User } from "@modules/users/infra/typeorm/entities/User";
 import { IUserRepository } from "../IUserRepository";
 
-
-class UsersRepositoryInMemomy implements IUserRepository{
+class UsersRepositoryInMemory implements IUserRepository{
 
     users: User[] = [];
 
     //pivot skills
     usersSkills: string[] = [];
 
-    create({ id, first_name, last_name, email, password, is_mentor, total_evaluations, stars }: ICreateUserDTO): Promise<User> {
+    async create({ id, first_name, last_name, email, password, is_mentor, total_evaluations, stars }: ICreateUserDTO): Promise<User> {
         const user = new User();
 
         Object.assign(user, {
@@ -28,7 +27,8 @@ class UsersRepositoryInMemomy implements IUserRepository{
         })
 
         this.users.push(user);
-        return
+       
+        return user;
     }
 
     async findByEmail(email: string): Promise<User> {
@@ -60,4 +60,4 @@ class UsersRepositoryInMemomy implements IUserRepository{
 
 }
 
-export { UsersRepositoryInMemomy }
+export { UsersRepositoryInMemory }

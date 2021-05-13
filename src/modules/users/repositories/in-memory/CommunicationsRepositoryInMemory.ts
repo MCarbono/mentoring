@@ -7,11 +7,20 @@ class CommunicationsRepositoryInMemory implements ICommunicationsRepository {
     communications: Communication[] = [];
 
     async findByIds(communications_id: Communication[]): Promise<Communication[]> {
-        const ids = this.communications.filter(skill => skill.id === String(communications_id))
-        return ids;
+        const verifyCommunications: Communication[] = [];
+
+        for(let communicationsDb of this.communications){
+            for(let communications of communications_id){
+                if(communications.id === communicationsDb.id){
+                    verifyCommunications.push(communications)
+                }
+            }
+        }
+
+        return verifyCommunications;
     }
 
-    async create(name: string): Promise<void> {
+    async create(name: string): Promise<Communication> {
         const communication = new Communication()
 
         Object.assign(communication, {
@@ -19,6 +28,7 @@ class CommunicationsRepositoryInMemory implements ICommunicationsRepository {
         })
 
         this.communications.push(communication)
+        return communication;
     }
 
 }

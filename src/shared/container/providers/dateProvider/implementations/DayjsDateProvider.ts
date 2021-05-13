@@ -1,4 +1,4 @@
-import { IDateProvider } from "../IDateProvider";
+/*import { IDateProvider } from "../IDateProvider";
 
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc'
@@ -6,6 +6,27 @@ import utc from 'dayjs/plugin/utc'
 dayjs.extend(utc);
 
 class DayjsDateProvider implements IDateProvider {
+    convertToUTC(date: Date): Date {
+        throw new Error("Method not implemented.");
+    }
+    compareInMinutes(start_date: Date, end_date: Date): number {
+        throw new Error("Method not implemented.");
+    }
+    limitToAcceptMentoring(start_date: Date, hours: number): Date {
+        throw new Error("Method not implemented.");
+    }
+    addDays(days: number): Date {
+        throw new Error("Method not implemented.");
+    }
+    addHours(hours: number): Date {
+        throw new Error("Method not implemented.");
+    }
+    convertTimestampToDate(date: Date): Date {
+        throw new Error("Method not implemented.");
+    }
+    convertTimestampToHoursMinutes(date: Date): Date {
+        throw new Error("Method not implemented.");
+    }
     
     dateNow(): Date {
         return dayjs().toDate()
@@ -14,41 +35,6 @@ class DayjsDateProvider implements IDateProvider {
     compareIfBefore(start_date: Date, end_date: Date): boolean {
         return dayjs(start_date).isBefore(end_date);
     }
-
-    convertToUTC(date: Date): Date {
-        return dayjs(date).utc().local().format()
-    }
-    
-    compareInMinutes(start_date: Date, end_date: Date): number {
-        const start_date_utc = this.convertToUTC(start_date)
-        const end_date_utc = this.convertToUTC(end_date)
-
-        return dayjs(start_date_utc).diff(end_date_utc, "minute")
-    }
-
-    limitToAcceptMentoring(start_date: Date, hours: number): Date {
-        const star_date_utc = this.convertToUTC(start_date)
-        const limitDate = dayjs(star_date_utc).subtract(hours, 'hours').toDate()
-        return limitDate;
-    }
-
-    addDays(days: number): Date {
-        return dayjs().add(days, 'day').toDate()
-    }
-
-    addHours(hours: number): Date {
-        return dayjs().add(hours, 'hours').toDate()
-    }
-
-    convertTimestampToDate(date: Date): Date {
-        return dayjs(date).format('DD/MM/YYYY');
-    }
-
-    convertTimestampToHoursMinutes(date: Date): Date {
-        return dayjs(date).format("HH:mm")
-    }
-    
-    
 }
 
-export { DayjsDateProvider }
+export { DayjsDateProvider }*/

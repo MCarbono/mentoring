@@ -28,8 +28,8 @@ class CreateUserUseCase {
         @inject("SkillsRepository")
         private skillsRepository: ISkillsRepository,
 
-        // @inject("CommunicationsRepository")
-        // private communicationsRepository: ICommunicationsRepository
+        @inject("CommunicationsRepository")
+        private communicationsRepository: ICommunicationsRepository
     ){}
 
     async execute({ first_name, last_name, email, password, is_mentor, skills_id, info_mentor, communications_id }: IRequest): Promise<User>{
@@ -47,15 +47,15 @@ class CreateUserUseCase {
             throw new AppError("One or more skills does not exists!")
         }
 
-        //let communications: Communication[];
+        let communications: Communication[];
         
-        /*if(communications_id){
+        if(communications_id){
              communications = await this.communicationsRepository.findByIds(communications_id)
 
             if(communications.length !== communications_id.length){
                 throw new AppError("One or more communications does not exists!")
             }
-        }*/
+        }
         
         if(!is_mentor){
             const user = await this.usersRepository.create({
@@ -85,19 +85,19 @@ class CreateUserUseCase {
                 info_mentor
             })
 
-            /*skills.map(async skill => {
+            skills.map(async skill => {
                 await this.usersRepository.insertPivotTableSkills({
                     user_id: user.id,
                     skill_id: skill.id
                 })
-            })*/
+            })
 
-            /*communications.map(async communication => {
+            communications.map(async communication => {
                 await this.usersRepository.insertPivotTableCommunications({
                     user_id: user.id,
                     communication_id: communication.id
                 })
-            })*/
+            })
 
             return user;
         }

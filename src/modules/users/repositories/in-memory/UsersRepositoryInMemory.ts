@@ -12,6 +12,7 @@ class UsersRepositoryInMemory implements IUserRepository{
 
     //pivot skills
     usersSkills: string[] = [];
+    usersCommunications: string[] = [];
 
     async create({ id, first_name, last_name, email, password, is_mentor, total_evaluations, stars }: ICreateUserDTO): Promise<User> {
         const user = new User();
@@ -39,8 +40,8 @@ class UsersRepositoryInMemory implements IUserRepository{
        this.usersSkills.push(user_id, skill_id)
     }
 
-    insertPivotTableCommunications({ user_id, communication_id }: IIinsertPivotTableCommunications): Promise<void> {
-        throw new Error("Method not implemented.");
+    async insertPivotTableCommunications({ user_id, communication_id }: IIinsertPivotTableCommunications): Promise<void> {
+        this.usersCommunications.push(user_id, communication_id)
     }
     profile(id: string): Promise<User> {
         throw new Error("Method not implemented.");

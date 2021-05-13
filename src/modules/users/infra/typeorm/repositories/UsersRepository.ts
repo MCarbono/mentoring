@@ -69,7 +69,7 @@ class UsersRepository implements IUserRepository {
         return await this.repository.findOne({id})
     }   
 
-    async findMentor(skills_id: Skill[]): Promise<User> {
+    async findMentor(skills_id: Skill[]): Promise<User[]> {
         /*const mentors = this.repository.find({
             join: {
                 alias: "users",
@@ -87,9 +87,9 @@ class UsersRepository implements IUserRepository {
             .createQueryBuilder("users")
             .leftJoinAndSelect('users.skills', 'skill')
             .leftJoinAndSelect('users.communications', 'communication')
-            .select(['users.avatar','users.first_name','skill.name', 'communication.name', 'users.stars'])
             .where("is_mentor = true")
             .andWhere("skill.id IN (:...ids)", { ids: skills_id })
+            .select(['users.avatar','users.first_name','skill.name', 'communication.name', 'users.stars'])
             .getMany()
 
             //https://stackoverflow.com/questions/39011593/postgresql-get-matched-value-of-array-field-in-the-result

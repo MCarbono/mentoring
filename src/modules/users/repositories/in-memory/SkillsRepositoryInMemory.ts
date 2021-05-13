@@ -24,17 +24,16 @@ class SkillsRepositoryInMemory implements ISkillsRepository{
     }
 
     async findByIds(skills_id: Skill[]): Promise<Skill[]> {
-       const teste: Skill[] = []
+       const verifySkills: Skill[] = []
        for(let skills_db of this.skills){
            for(let skills of skills_id){
                if(skills.id === skills_db.id){
-                   teste.push(skills)
+                   verifySkills.push(skills)
                }
            }
        }
        
-       return teste;
-        
+       return verifySkills;
     }
 
     create(data: ICreateSkillDTO): Promise<void> {

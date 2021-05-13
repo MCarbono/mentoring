@@ -54,8 +54,11 @@ class CompleteMentoringUseCase {
 
         const mentor = await this.usersRepository.findById(mentor_id)
 
-        mentor.stars = Number(mentor.stars) + stars;
-        mentor.total_evaluations = Number(mentor.total_evaluations) + 1;
+        const newMentorStars = Number(mentor.stars) + stars;
+        const newMentorTotalEvaluations = Number(mentor.total_evaluations) + 1
+
+        mentor.stars = String(newMentorStars);
+        mentor.total_evaluations = String(newMentorTotalEvaluations);
 
         mentoringMentorUser.isDone = true;
 

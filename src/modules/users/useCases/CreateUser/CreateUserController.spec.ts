@@ -2,9 +2,9 @@ import request from 'supertest';
 
 import { v4 as uuidV4 } from 'uuid';
 
-import { app } from '@shared/infra/http/app';
+import { app } from '../../../../shared/infra/http/app';
 
-import createConnection from '@shared/infra/typeorm';
+import createConnection from '../../../../shared/infra/typeorm';
 import { Connection } from 'typeorm';
 
 let connection: Connection;
@@ -12,7 +12,6 @@ let skills_id = '';
 let communications_id = '';
 
 describe("Create user controller", () => {
-
     beforeAll(async () => {
         connection = await createConnection();
         await connection.runMigrations();

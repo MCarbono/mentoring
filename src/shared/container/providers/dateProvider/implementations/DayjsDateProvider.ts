@@ -1,4 +1,4 @@
-/*import { IDateProvider } from "../IDateProvider";
+import { IDateProvider } from "../IDateProvider";
 
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc'
@@ -6,35 +6,36 @@ import utc from 'dayjs/plugin/utc'
 dayjs.extend(utc);
 
 class DayjsDateProvider implements IDateProvider {
-    convertToUTC(date: Date): Date {
-        throw new Error("Method not implemented.");
+    convertToUTC(date: Date): string {
+        return dayjs(date).utc().local().format();
     }
     compareInMinutes(start_date: Date, end_date: Date): number {
-        throw new Error("Method not implemented.");
+        const start_date_utc = this.convertToUTC(start_date)
+        const end_date_utc = this.convertToUTC(end_date)
+
+        return dayjs(end_date_utc).diff(start_date_utc, 'minutes');
     }
     limitToAcceptMentoring(start_date: Date, hours: number): Date {
-        throw new Error("Method not implemented.");
+       return dayjs(start_date).subtract(hours, 'hours').toDate();
     }
     addDays(days: number): Date {
-        throw new Error("Method not implemented.");
+        return dayjs().add(days, 'days').toDate();
     }
     addHours(hours: number): Date {
-        throw new Error("Method not implemented.");
+        return dayjs().add(hours, 'hours').toDate()
     }
-    convertTimestampToDate(date: Date): Date {
-        throw new Error("Method not implemented.");
+    convertTimestampToDate(date: Date): string {
+        return dayjs(date).format('DD/MM/YYYY')
     }
-    convertTimestampToHoursMinutes(date: Date): Date {
-        throw new Error("Method not implemented.");
+    convertTimestampToHoursMinutes(date: Date): string {
+        return dayjs(date).format('HH:mm');
     }
-    
     dateNow(): Date {
         return dayjs().toDate()
     }
-
     compareIfBefore(start_date: Date, end_date: Date): boolean {
         return dayjs(start_date).isBefore(end_date);
     }
 }
 
-export { DayjsDateProvider }*/
+export { DayjsDateProvider }

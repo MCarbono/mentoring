@@ -4,6 +4,7 @@ import { ICreateMentorsAvailability } from '../dtos/ICreateMentoringAvailability
 interface IMentorsAvailabilityRepository {
     create(data: ICreateMentorsAvailability): Promise<MentorsAvailability>
     findById(id: string): Promise<MentorsAvailability>
+    findAvailabilitiesByMentorId(id: string): Promise<MentorsAvailability[]>
 }   
 
 export { IMentorsAvailabilityRepository}

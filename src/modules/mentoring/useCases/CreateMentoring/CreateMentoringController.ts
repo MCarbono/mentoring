@@ -14,7 +14,7 @@ class CreateMentoringController {
 
         await createMentoringUseCase.execute({ user_id, mentor_id, mentor_availability_id, subject, communication })
         
-        return response.send()
+        return response.status(201).send()
     }
 }
 

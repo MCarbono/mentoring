@@ -63,6 +63,7 @@ class CreateMentoringUseCase {
             emailPath
         )
 
+        return;
     }
 }
 

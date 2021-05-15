@@ -22,17 +22,13 @@ class CreateMentorAvailabilitiesUseCase {
     async execute({ id, start_date, end_date}: IRequest): Promise<void>{
         const mentoringSession = 30;
         //Verificar se os arrays não possuem horarios/datas repetidas/datas faltantes
-        //Estudar esse link = javascript Set
-        //https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Set
-        //https://pt.stackoverflow.com/questions/118654/como-verificar-elementos-duplicados-em-array
         
         const start_date_filtered = new Set(start_date);
         const end_date_filtered = new Set(end_date);
         
-       
-        /*if(start_date_filtered.size !== end_date_filtered.size){
+        if(start_date_filtered.size !== end_date_filtered.size){
             throw new AppError("One or more dates are equal or missing one date register.")
-        }*/
+        }
 
         for(let i = 0; i < start_date.length; i++){
             //Verificar se a data inicial é maior que a data que o usuario está cadastrando
@@ -46,7 +42,7 @@ class CreateMentorAvailabilitiesUseCase {
             }
             
             //Verificar se a data inicial tem pelo menos 30 mim de antecedencia da data final
-            if(this.dateProvider.compareInMinutes(start_date[i], end_date[i]) > mentoringSession){
+            if(this.dateProvider.compareInMinutes(start_date[i], end_date[i]) < mentoringSession){
                 throw new AppError("The mentoring session needs to be at least 30 minutes duration. One of yours mentoring does not have it.")
             }
         }
@@ -58,8 +54,6 @@ class CreateMentorAvailabilitiesUseCase {
                 mentor_id: id
             })
         }
-
-        
     }
 }
 

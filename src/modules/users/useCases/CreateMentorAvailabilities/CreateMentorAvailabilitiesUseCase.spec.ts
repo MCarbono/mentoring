@@ -2,30 +2,31 @@
 import { User } from "@modules/users/infra/typeorm/entities/User";
 import { MentorsAvailabilityInMemory } from "@modules/users/repositories/in-memory/MentorsAvailabilityInMemory";
 import { UsersRepositoryInMemory } from "@modules/users/repositories/in-memory/UsersRepositoryInMemory";
-import { DateProviderInMemory } from "@shared/container/providers/dateProvider/implementations/in-memory/DateProviderInMemory";
 import { AppError } from "@shared/errors/AppError";
 import { CreateMentorAvailabilitiesUseCase } from "./CreateMentorAvailabilitiesUseCase";
+import { DayjsDateProvider } from "@shared/container/providers/dateProvider/implementations/DayjsDateProvider";
 
 let mentorsAvailabilityInMemory: MentorsAvailabilityInMemory
-let dateProviderInMemory: DateProviderInMemory;
 let usersRepositoryInMemory: UsersRepositoryInMemory;
 let createMentorAvailabilitiesUseCase: CreateMentorAvailabilitiesUseCase
+let dayjsDateProvider: DayjsDateProvider
 
 let user: User;
 
 describe("Create mentor's availabilities", () => {
     beforeEach(async () => {
         mentorsAvailabilityInMemory = new MentorsAvailabilityInMemory()
-        dateProviderInMemory = new DateProviderInMemory();
         usersRepositoryInMemory = new UsersRepositoryInMemory();
-        createMentorAvailabilitiesUseCase = new CreateMentorAvailabilitiesUseCase(mentorsAvailabilityInMemory, dateProviderInMemory);
+        dayjsDateProvider = new DayjsDateProvider()
+        createMentorAvailabilitiesUseCase = new CreateMentorAvailabilitiesUseCase(mentorsAvailabilityInMemory, dayjsDateProvider);
 
         const userMentor = await usersRepositoryInMemory.create({
             first_name: 'Marcelo',
             last_name: 'Carbono',
             email: 'marcelo@gmail.com',
             password: '12345',
-            is_mentor: false
+            is_mentor: true,
+            info_mentor: 'Mentor top'
         })
 
         user = userMentor;
@@ -36,10 +37,7 @@ describe("Create mentor's availabilities", () => {
         let end_date: Date[] = [];
 
         start_date.push(new Date('2021-05-15T15:00:29.091Z'))
-        start_date.push(new Date('2021-05-15T16:00:29.091Z'))
-
         end_date.push(new Date('2021-05-15T16:00:29.091Z'))
-        end_date.push(new Date('2021-05-15T17:00:29.091Z'))
 
         const { id } = user;
 
@@ -67,7 +65,6 @@ describe("Create mentor's availabilities", () => {
         end_date.push(new Date(2021, 4, 11, 11))
         end_date.push(new Date(2021, 4, 15, 11))
 
-        console.log(start_date)
         const { id } = user;
 
         await expect(createMentorAvailabilitiesUseCase.execute({
@@ -97,8 +94,8 @@ describe("Create mentor's availabilities", () => {
         let start_date: Date[] = [];
         let end_date: Date[] = [];
 
-        start_date.push(new Date(2021, 4, 15, 14))
-        end_date.push(new Date(2021, 4, 15, 14, 15))
+        start_date.push(new Date('2021-05-15T15:00:29.091Z'))
+        end_date.push(new Date('2021-05-15T15:15:29.091Z'))
 
         const { id } = user;
 
@@ -108,5 +105,24 @@ describe("Create mentor's availabilities", () => {
             end_date
         })
         ).rejects.toEqual(new AppError("The mentoring session needs to be at least 30 minutes duration. One of yours mentoring does not have it."))
+    })
+
+    it("Should not be able to create an availability with a missing date/time", async () => {
+        let start_date: Date[] = [];
+        let end_date: Date[] = [];
+
+        start_date.push(new Date('2021-05-15T15:00:29.091Z'))
+        end_date.push(new Date('2021-05-15T16:00:29.091Z'))
+
+        start_date.push(new Date('2021-05-15T15:00:29.091Z'))
+
+        const { id } = user;
+
+        await expect(createMentorAvailabilitiesUseCase.execute({
+            id,
+            start_date,
+            end_date
+        })
+        ).rejects.toEqual(new AppError("One or more dates are equal or missing one date register."))
     })
 })

@@ -38,7 +38,7 @@ class CreateMentoringUseCase {
             throw new AppError("User mentor selected is not a mentor")
 
         const mentoringAlreadyRegistered = await this.mentoringRepository.findByIdMentorAvailability(mentor_availability_id)
-
+        
         if(mentoringAlreadyRegistered){
             throw new AppError("Mentoring is already registered. Wait for mentor's approvement")
         }

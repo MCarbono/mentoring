@@ -1,0 +1,74 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Mentoring Documentation",
+        "description": "This is an API Rest",
+        "version": "1.0.0",
+        "contact": {
+            "email": "carbono.marcelo@gmail.com"
+        }
+    },
+    "paths": {
+        "/users": {
+            "post": {
+                "tags": ["Users"],
+                "summary": "Create a user",
+                "description": "Create a new user. If you are a mentor, set variable is_mentor to true, fullfil the info_mentor with some information and send communications_id",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "first_name": {
+                                        "type": "string"
+                                    },
+                                    "last_name": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string"
+                                    }, 
+                                    "password": {
+                                        "type": "string"
+                                    },
+                                    "is_mentor": {
+                                        "type": "boolean"
+                                    },
+                                    "info_mentor": {
+                                        "type": "string"
+                                    },
+                                    "skills_id": {
+                                        "type": "array"
+                                    },
+                                    "communications_id": {
+                                        "type": "array"
+                                    }
+                                },
+                                "example": {
+                                    "first_name": "first name sample",
+                                    "last_name": "last name sample",
+                                    "email": "sample@gmail.com",
+                                    "password": "12345",
+                                    "is_mentor": false,
+                                    "info_mentor": "if you are a mentor, say something about you.",
+                                    "skills_id": ["1", "2", "3"],
+                                    "communications_id": ["21332ds", "dsad2", "ewe123ds"]
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "User Created"
+                    },
+                    "400": {
+                        "description": "User already exists!"
+                    }
+                    
+                }
+            }
+        }
+    }
+}

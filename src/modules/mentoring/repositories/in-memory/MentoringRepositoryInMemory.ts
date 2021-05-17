@@ -5,13 +5,12 @@ import { IMentoringRepository } from "../IMentoringRepository";
 
 class MentoringRepositoryInMemory implements IMentoringRepository {
 
-    private mentoringAll: Mentoring[] =  []
+    public mentoringAll: Mentoring[] =  []
 
-    async create({ subject, mentor_id, user_id, mentor_availability_id, id, refused, isDone, accepted }: ICreateMentoringDTO): Promise<Mentoring> {
+    async create({ subject, mentor_id, user_id, mentor_availability_id, refused, isDone, accepted }: ICreateMentoringDTO): Promise<Mentoring> {
        const mentoring = new Mentoring();
 
        Object.assign(mentoring, {
-           id,
            subject,
            mentor_id,
            user_id,
@@ -24,20 +23,22 @@ class MentoringRepositoryInMemory implements IMentoringRepository {
        this.mentoringAll.push(mentoring)
        return mentoring;
     }
-    findByIdMentorAvailability(id: string): Promise<Mentoring> {
-        throw new Error("Method not implemented.");
+
+    async findByIdMentorAvailability(id: string): Promise<Mentoring> {
+        return this.mentoringAll.find(mentoring => mentoring.mentor_availability_id === id) 
     }
+
     findMentoringAndMentor(mentor_id: string, mentoring_id: string): Promise<Mentoring> {
-        throw new Error("Method not implemented.");
+        return
     }
     findMentoringMentorUser(mentoring_id: string, mentor_id: string, user_id: string): Promise<Mentoring> {
-        throw new Error("Method not implemented.");
+        return
     }
     loadMentoringByUser(id: string): Promise<Mentoring[]> {
-        throw new Error("Method not implemented.");
+        return
     }
     loadMentoringByMentor(id: string): Promise<ILoadMentoringByMentor> {
-        throw new Error("Method not implemented.");
+        return
     }
     async findMentoringById(id: string): Promise<Mentoring> {
         return this.mentoringAll.find(mentoring => mentoring.id === id)

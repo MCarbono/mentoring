@@ -46,11 +46,13 @@ class UsersRepositoryInMemory implements IUserRepository{
     profile(id: string): Promise<User> {
         throw new Error("Method not implemented.");
     }
-    findById(id: string): Promise<User> {
-        throw new Error("Method not implemented.");
+
+    async findById(id: string): Promise<User> {
+        return this.users.find(user => user.id === id)
     }
+
     async findMentor(skills_id: Skill[]): Promise<User[]> {
-        throw new Error("Method not implemented.");
+        return
     }
     async findSkills(id: string): Promise<Skill[]> {
         throw new Error("Method not implemented.");

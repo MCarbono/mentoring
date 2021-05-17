@@ -5,7 +5,7 @@ import { IMentorsAvailabilityRepository } from "../IMentorsAvailabilityRepositor
 
 class MentorsAvailabilityInMemory implements IMentorsAvailabilityRepository {
     
-    private mentorsAvailability: MentorsAvailability[] = [];
+    public mentorsAvailability: MentorsAvailability[] = [];
 
     async create({start_date, end_date, mentor_id}: ICreateMentorsAvailability): Promise<MentorsAvailability> {
         const mentorAvailability = new MentorsAvailability();

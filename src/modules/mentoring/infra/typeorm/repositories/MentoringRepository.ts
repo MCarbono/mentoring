@@ -118,8 +118,6 @@ class MentoringRepository implements IMentoringRepository {
             relations: ['mentors_availability', 'user', 'mentor']
         })
            
-            
-        
     }
 }
 

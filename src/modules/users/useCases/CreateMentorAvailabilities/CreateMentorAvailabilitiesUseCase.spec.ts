@@ -1,8 +1,10 @@
-
 import { User } from "@modules/users/infra/typeorm/entities/User";
+
 import { MentorsAvailabilityInMemory } from "@modules/users/repositories/in-memory/MentorsAvailabilityInMemory";
 import { UsersRepositoryInMemory } from "@modules/users/repositories/in-memory/UsersRepositoryInMemory";
+
 import { AppError } from "@shared/errors/AppError";
+
 import { CreateMentorAvailabilitiesUseCase } from "./CreateMentorAvailabilitiesUseCase";
 import { DayjsDateProvider } from "@shared/container/providers/dateProvider/implementations/DayjsDateProvider";
 

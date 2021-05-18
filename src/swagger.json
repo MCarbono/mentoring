@@ -18,43 +18,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "first_name": {
-                                        "type": "string"
-                                    },
-                                    "last_name": {
-                                        "type": "string"
-                                    },
-                                    "email": {
-                                        "type": "string"
-                                    }, 
-                                    "password": {
-                                        "type": "string"
-                                    },
-                                    "is_mentor": {
-                                        "type": "boolean"
-                                    },
-                                    "info_mentor": {
-                                        "type": "string"
-                                    },
-                                    "skills_id": {
-                                        "type": "array"
-                                    },
-                                    "communications_id": {
-                                        "type": "array"
-                                    }
-                                },
-                                "example": {
-                                    "first_name": "first name sample",
-                                    "last_name": "last name sample",
-                                    "email": "sample@gmail.com",
-                                    "password": "12345",
-                                    "is_mentor": false,
-                                    "info_mentor": "if you are a mentor, say something about you.",
-                                    "skills_id": ["1", "2", "3"],
-                                    "communications_id": ["21332ds", "dsad2", "ewe123ds"]
-                                }
+                                "$ref": "#/definitions/User"
                             }
                         }
                     }
@@ -68,6 +32,172 @@
                     }
                     
                 }
+            }
+        },
+        "/users/mentors/availabilities": {
+            "post": {
+                "tags": ["Users"],
+                "summary": "Create mentor's availabilities",
+                "description": "Create the mentor's time and date to do a mentoring session",
+                "security": [
+                    { "bearerAuth": [] }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/definitions/mentors_availabilities"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Availabilities created"
+                    },
+                    "400": {
+                        "description": "Availabilities erros"
+                    }
+                }
+            }
+        },
+
+        "/users/find_mentors": {
+            "get": {
+                "tags": ["Users"],
+                "summary": "Find mentor's",
+                "description": "Filters the mentor's according to the user skill's",
+                "security": [
+                    { "bearerAuth": [] }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "skills_id": {
+                                        "type": "array"
+                                    }
+                                }
+                            },
+                            "example": {
+                                "skills_id": ["skill_id_1", "skill_id_2"]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Mentor's list"
+                    },
+                    "400": {
+                        "description": "One or more skills was not found!"
+                    }
+                }
+            }
+            
+        },
+
+        "/session": {
+            "post": {
+                "tags": ["Session"],
+                "summary": "Authentication user",
+                "description": "Verify user's email and password, create a new session and a session token",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type: ": "object",
+                                "properties": {
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Session created"
+                    },
+                    "401": {
+                        "description": "Email or password incorrect"
+                    }
+                }
+            }
+        }
+    },
+
+    "definitions": {
+        "User": {
+            "type": "object",
+                "properties": {
+                    "first_name": {
+                        "type": "string"
+                    },
+                    "last_name": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    }, 
+                    "password": {
+                        "type": "string"
+                    },
+                    "is_mentor": {
+                        "type": "boolean"
+                    },
+                    "info_mentor": {
+                        "type": "string"
+                    },
+                    "skills_id": {
+                        "type": "array"
+                    },
+                    "communications_id": {
+                        "type": "array"
+                    }
+                },
+                "example": {
+                    "first_name": "first name sample",
+                    "last_name": "last name sample",
+                    "email": "sample@gmail.com",
+                    "password": "12345",
+                    "is_mentor": false,
+                    "info_mentor": "if you are a mentor, say something about you.",
+                    "skills_id": ["1", "2", "3"],
+                    "communications_id": ["21332ds", "dsad2", "ewe123ds"]
+                }
+        },
+        "mentors_availabilities": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "start_date": {
+                    "type": "array"
+                },
+                "end_date": {
+                    "type": "array"
+                }
+            },
+            "example": {
+                "start_date": ["TimestampDate"],
+                "end_date": ["TimestampDate"]
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
             }
         }
     }

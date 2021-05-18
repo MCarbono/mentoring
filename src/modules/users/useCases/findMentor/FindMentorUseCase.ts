@@ -8,7 +8,6 @@ import { inject, injectable } from "tsyringe";
 
 @injectable()
 class FindMentorUseCase {
-
     constructor(
         @inject("UsersRepository")
         private usersRepository: IUserRepository,
@@ -16,6 +15,7 @@ class FindMentorUseCase {
         @inject("SkillsRepository")
         private skillsRepository: ISkillsRepository,
     ){}
+    
     async execute(skills_id: Skill[]): Promise<User[]>{
         const skills = await this.skillsRepository.findByIds(skills_id)
 

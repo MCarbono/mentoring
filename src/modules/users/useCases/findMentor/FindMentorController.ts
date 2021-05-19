@@ -5,13 +5,15 @@ import { FindMentorUseCase } from './FindMentorUseCase';
 
 class FindMentorController {
     async handle(request: Request, response: Response): Promise<Response> {
-        const { skills_id } = request.body;
+        const { skills_id } = request.query;
 
-        const findMentorUseCase = container.resolve(FindMentorUseCase)
+        const skills = String(skills_id).split(',');
 
-        const mentors = await findMentorUseCase.execute(skills_id)
+        const findMentorUseCase = container.resolve(FindMentorUseCase);
+
+        const mentors = await findMentorUseCase.execute(skills);
  
-        return response.json(mentors)
+        return response.json(mentors);
     }
 }
 

@@ -12,7 +12,7 @@ class LoadUserSkillsUseCase {
     ){}
     async execute(id: string): Promise<Skill[]>{
         const userSkills = await this.usersRepository.findSkills(id)
-        return userSkills
+        return userSkills;
     }
 }
 

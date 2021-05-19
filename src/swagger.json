@@ -34,6 +34,135 @@
                 }
             }
         },
+
+        "/users/profile": {
+            "get": {
+                "tags": ["Users"],
+                "summary": "Show user Profile",
+                "description": "Show user profile according to his role",
+                "security": [
+                    { "bearerAuth": [] }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User info returned in json"
+                    },
+
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+
+        "/users/avatar": {
+            "patch": {
+                "tags": ["Users"],
+                "summary": "Update user's avatar",
+                "description": "Update user's avatar",
+                "security": [
+                    { "bearerAuth": []}
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type":"object",
+                                "properties": {
+                                    "avatar": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "Updated sucesssfully"
+                    },
+                    "400": {
+                        "description": "User not found"
+                    }
+                }
+            }
+        },
+
+        "/users/skills": {
+            "get": {
+                "tags": ["Users"],
+                "summary": "Find user's skills registered",
+                "description": "User selects one or more skills then he may find mentor's according to his skills",
+                "security": [
+                    { "bearerAuth": [] }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User's skills in json"
+                    }
+                }
+            }
+        },
+
+        "/users/find_mentors?skills_id=": {
+            "get": {
+                "tags": ["Users"],
+                "summary": "Find mentor's",
+                "description": "Filters the mentor's according to the user skill's",
+                "security": [
+                    { "bearerAuth": [] }
+                ],
+                "parameters": [
+                    {
+                        "name": "skills_id",
+                        "in": "query",
+                        "description": "skills_id to filter mentor's",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Mentor's list"
+                    },
+                    "400": {
+                        "description": "One or more skills was not found!"
+                    }
+                }
+            }
+        },
+
+        "/users/{mentor_id}/request_mentoring": {
+            "get": {
+                "tags": ["Users"],
+                "summary": "Request mentoring",
+                "description": "See informations from the mentors so the user may request the mentoring",
+                "security": [
+                    { "bearerAuth": [] }
+                ],
+                "parameters": [
+                    {
+                        "name": "mentor_id",
+                        "in": "path",
+                        "description": "mentor id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                    
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Mentor informations"
+                    }
+                }
+            }
+        },
+
         "/users/mentors/availabilities": {
             "post": {
                 "tags": ["Users"],
@@ -62,13 +191,52 @@
             }
         },
 
-        "/users/find_mentors": {
-            "get": {
+        "/password/forgot": {
+            "post": {
                 "tags": ["Users"],
-                "summary": "Find mentor's",
-                "description": "Filters the mentor's according to the user skill's",
-                "security": [
-                    { "bearerAuth": [] }
+                "summary": "Send email to user",
+                "description": "Send email to user with a link so that he can change his password",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "email": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "email with an token"
+                    },
+                    "400": {
+                        "description": "User not found"
+                    }
+                }
+            }
+        },
+
+        "/password/reset?token=": {
+            "post": {
+                "tags": ["Users"],
+                "summary": "Reset user password",
+                "description": "Reset the password",
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "query",
+                        "description": "token from the email to reset password",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                    
                 ],
                 "requestBody": {
                     "content": {
@@ -76,32 +244,31 @@
                             "schema": {
                                 "type": "object",
                                 "properties": {
-                                    "skills_id": {
-                                        "type": "array"
+                                    "password": {
+                                        "type": "string"
                                     }
                                 }
-                            },
-                            "example": {
-                                "skills_id": ["skill_id_1", "skill_id_2"]
                             }
                         }
                     }
                 },
                 "responses": {
                     "200": {
-                        "description": "Mentor's list"
+                        "description": "password changed"
+                    },
+                    "404": {
+                        "description": "Token not found"
                     },
                     "400": {
-                        "description": "One or more skills was not found!"
+                        "description": "token expired"
                     }
                 }
             }
-            
         },
 
         "/session": {
             "post": {
-                "tags": ["Session"],
+                "tags": ["Authenticate"],
                 "summary": "Authentication user",
                 "description": "Verify user's email and password, create a new session and a session token",
                 "requestBody": {
@@ -127,6 +294,58 @@
                     },
                     "401": {
                         "description": "Email or password incorrect"
+                    }
+                }
+            }
+        },
+        "/refresh_token": {
+            "post": {
+                "tags": ["Authenticate"],
+                "summary": "Create a refresh_token",
+                "description": "Create a refresh_token and a session token in case the user's session token expired",
+                "security": [
+                    { "bearerAuth": [] }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "token": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Token generated and return both tokens(session and refresh)"
+                    },
+                    "400": {
+                        "description": "Refresh Token does not exists!"
+                    }
+                }
+            }
+        },
+
+        "/logout": {
+            "delete": {
+                "tags": ["Authenticate"],
+                "summary": "User's logout",
+                "description": "User's system logout and refresh token destroyed",
+                "security": [
+                    { "bearerAuth": [] }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success logout"
+                    },
+
+                    "400": {
+                        "description": "User does not have a refresh token"
                     }
                 }
             }

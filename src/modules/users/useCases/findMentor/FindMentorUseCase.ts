@@ -15,10 +15,11 @@ class FindMentorUseCase {
         @inject("SkillsRepository")
         private skillsRepository: ISkillsRepository,
     ){}
-    
-    async execute(skills_id: Skill[]): Promise<User[]>{
-        const skills = await this.skillsRepository.findByIds(skills_id)
 
+    async execute(skills_id: string[]): Promise<User[]>{
+        
+        const skills = await this.skillsRepository.findByIds(skills_id)
+        
         if(skills.length !== skills_id.length){
             throw new AppError("One or more skills was not found!")
         }

@@ -19,6 +19,13 @@ async function create(){
         `INSERT INTO skills(id, name)
         VALUES('${uuid}', 'Banco de dados Relacional')`
     )
+
+    uuid = uuidV4()
+    
+    await connection.query(`
+        INSERT INTO skills(id, name)
+        VALUES('${uuid}', 'Banco de dados Relacional não relacional')
+    `)
     
     uuid = uuidV4()
 
@@ -43,7 +50,7 @@ async function create(){
     `)
 
     const skill = await connection.query(`
-        SELECT skills.id from skills WHERE name = 'Banco de dados Relacional'
+        SELECT * from skills
     `)
 
     const communication = await connection.query(`
@@ -58,6 +65,16 @@ async function create(){
     await connection.query(`
         INSERT INTO users_skills(user_id, skill_id)
         VALUES('${mentor[0].id}', '${skill[0].id}')
+    `)
+
+    await connection.query(`
+        INSERT INTO users_skills(user_id, skill_id)
+        VALUES('${user[0].id}', '${skill[1].id}')
+    `)
+
+    await connection.query(`
+        INSERT INTO users_skills(user_id, skill_id)
+        VALUES('${mentor[0].id}', '${skill[1].id}')
     `)
 
     await connection.query(`

@@ -25,7 +25,7 @@ class SkillsRepository implements ISkillsRepository {
         return skill
     }
 
-    async findByIds(skills_id: Skill[]): Promise<Skill[]> {
+    async findByIds(skills_id: string[]): Promise<Skill[]> {
         return await this.repository.findByIds(skills_id)
     }
 

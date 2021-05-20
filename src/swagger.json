@@ -266,6 +266,180 @@
             }
         },
 
+        "/mentoring/{mentor_id}": {
+            "post": {
+                "tags": ["Mentoring"],
+                "summary": "Create a mentoring",
+                "description": "Create a mentoring",
+                "security": [
+                    { "bearerAuth": [] }
+                ],
+                "parameters": [
+                    {
+                        "name": "mentor_id",
+                        "in": "path",
+                        "description": "mentor_id that the user requested to mentoring",
+                        "required" : true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/definitions/mentoring"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Mentoring created"
+                    },
+                    "400": {
+                        "description": "Mentor does not exists"
+                    }
+                }
+
+            }
+        },
+
+        "/mentoring/{mentoring_id}/accept": {
+            "patch": {
+                "tags": ["Mentoring"],
+                "summary": "Accept the mentoring",
+                "description": "The mentor evaluate the user request to the mentoring and accept it",
+                "security": [
+                    { "bearerAuth": [] }
+                ],
+                "parameters": [
+                    {
+                        "name": "mentoring_id",
+                        "in": "path",
+                        "description": "The mentoring id to accept it",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                
+                "responses": {
+                    "204": {
+                        "description": "Mentoring accepted!"
+                    }
+                }
+            }
+        },
+
+        "/mentoring/{mentoring_id}/refused": {
+            "delete": {
+                "tags": ["Mentoring"],
+                "summary": "Refuse the mentoring",
+                "description": "The mentor refuse user request to the mentoring",
+                "security": [
+                    { "bearerAuth": [] }
+                ],
+                "parameters": [
+                    {
+                        "name": "mentoring_id",
+                        "in": "path",
+                        "description": "The mentoring id to refuse it",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+
+                "requestBody": {
+                    "content": {
+                        "application/json":{
+                            "schema": {
+                                "properties": {
+                                    "stars": {
+                                        "type": "number"
+                                    },
+                                    "refused_info": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                
+                "responses": {
+                    "204": {
+                        "description": "Mentoring refused"
+                    }
+                }
+            }
+        },
+
+        "/mentoring/{mentoring_id}/complete/{mentor_id}": {
+            "patch": {
+                "tags": ["Mentoring"],
+                "summary": "Complete the mentoring",
+                "description": "The user complete the mentoring and close it",
+                "security": [
+                    { "bearerAuth": [] }
+                ],
+                "parameters": [
+                    {
+                        "name": "mentoring_id",
+                        "in": "path",
+                        "description": "The mentoring id to complete it",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "mentor_id",
+                        "in": "path",
+                        "description": "mentor id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "stars": {
+                                        "type": "string"
+                                    },
+                                    "comment": {
+                                        "type": "string"
+                                    }
+                                }
+
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "Mentoring completed!"
+                    },
+                    "400": {
+                        "description": "You cannot finish a non-accepted mentoring || Mentoring is already finished"
+                    },
+                    "404": {
+                        "description": "Mentoring not found"
+                    }
+                }
+            }
+        },
+
         "/session": {
             "post": {
                 "tags": ["Authenticate"],
@@ -391,6 +565,26 @@
                     "skills_id": ["1", "2", "3"],
                     "communications_id": ["21332ds", "dsad2", "ewe123ds"]
                 }
+        },
+
+        "mentoring":{
+            "type": "object",
+            "properties": {
+                "mentor_availability_id": {
+                    "type": "string"
+                },
+                "subject": {
+                    "type": "string"
+                },
+                "communication": {
+                    "type": "string"
+                }
+            },
+            "example": {
+                "mentor_availability_id": "availability id from the mentor in uuid",
+                "subject": "message from the user to the mentor about the mentoring",
+                "communication": "which plataform they will communicate"
+            }
         },
         "mentors_availabilities": {
             "type": "object",

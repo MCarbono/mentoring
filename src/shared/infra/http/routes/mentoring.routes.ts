@@ -26,6 +26,6 @@ mentoringRoutes.get('/:mentoring_id/accept/:user_id', ensureAuthenticated, isMen
 mentoringRoutes.patch('/:mentoring_id/accept', ensureAuthenticated, isMentor, acceptMentoringController.handle)
 mentoringRoutes.patch('/:mentoring_id/complete/:mentor_id', ensureAuthenticated, completeMentoringController.handle)
 
-mentoringRoutes.delete('/:mentoring_id/refused', ensureAuthenticated, isMentor, deleteMentoringController.handle)
+mentoringRoutes.delete('/:mentoring_id/refused', ensureAuthenticated, deleteMentoringController.handle)
 
 export { mentoringRoutes }

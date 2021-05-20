@@ -34,8 +34,8 @@ class CompleteMentoringUseCase {
             mentoring_id,
             mentor_id,
             user_id
-        )
-
+        )   
+       
         if(!mentoringMentorUser){
             throw new AppError("Mentoring not found", 404)
         }

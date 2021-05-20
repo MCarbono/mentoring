@@ -12,7 +12,7 @@ class CompleteMentoringController {
 
         await completeMentoringUseCase.execute({ mentoring_id, mentor_id, user_id, stars, comment })
 
-        return response.json({ message: "Mentoring completed with success"})
+        return response.status(204).json({ message: "Mentoring completed with success"})
     }
 }
 

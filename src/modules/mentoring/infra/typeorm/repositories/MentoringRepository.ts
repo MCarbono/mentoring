@@ -56,7 +56,7 @@ class MentoringRepository implements IMentoringRepository {
             .andWhere("mentoring.mentor_id = :mentor_id", {mentor_id })
             .andWhere("mentoring.user_id = :user_id", { user_id })
             .select([
-                "mentoring.id", "mentoring.subject","mentoring.communication",
+                "mentoring.id", "mentoring.subject","mentoring.communication", "mentoring.accepted",
                 "user.id", "user.first_name", "user.last_name",
                 "mentors_availability.start_date", "mentors_availability.end_date"
             ])

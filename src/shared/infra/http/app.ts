@@ -1,6 +1,7 @@
 import 'reflect-metadata';
 import 'dotenv/config';
 import express, { Request, Response, NextFunction } from 'express';
+import rateLimiter from '../http/middlewares/rateLimiter';
 
 import swaggerUi from 'swagger-ui-express';
 import swaggerFile from '../../../../src/swagger.json';
@@ -12,11 +13,16 @@ import createConnection from '../typeorm';
 import "@shared/container";
 
 import { routes } from './routes';
+
+
+
 import upload from '@config/upload';
 
 createConnection();
 
 const app = express();
+
+app.use(rateLimiter);
 
 app.use(express.json())
 

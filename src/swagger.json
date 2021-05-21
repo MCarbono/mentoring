@@ -306,6 +306,48 @@
             }
         },
 
+        "/mentoring/{mentoring_id}/accept/{user_id}": {
+            "get": {
+                "tags": ["Mentoring"],
+                "summary": "Loads a requested mentoring page",
+                "description": "Loads the requested mentoring to the mentor containing all the information he needs to accept or refuse it",
+                "security": [
+                    { "bearerAuth": [] }
+                ],
+                "parameters": [
+                    {
+                        "name": "mentoring_id",
+                        "in": "path",
+                        "description": "mentoring id",
+                        "requried": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "user id that requested the mentoring",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "return the mentoring page"
+                    },
+                    "400": {
+                        "description": "mentoring expired or already accepted"
+                    },
+                    "404": {
+                        "description": "mentoring not found"
+                    }
+                }
+            }
+        },
+
         "/mentoring/{mentoring_id}/accept": {
             "patch": {
                 "tags": ["Mentoring"],
@@ -338,7 +380,7 @@
             "delete": {
                 "tags": ["Mentoring"],
                 "summary": "Refuse the mentoring",
-                "description": "The mentor refuse user request to the mentoring",
+                "description": "The mentor or the user refuses the request to the mentoring and an email is send",
                 "security": [
                     { "bearerAuth": [] }
                 ],
@@ -359,9 +401,6 @@
                         "application/json":{
                             "schema": {
                                 "properties": {
-                                    "stars": {
-                                        "type": "number"
-                                    },
                                     "refused_info": {
                                         "type": "string"
                                     }
@@ -374,6 +413,29 @@
                 "responses": {
                     "204": {
                         "description": "Mentoring refused"
+                    },
+                    "400": {
+                        "description": "Mentoring was already done or already cancelled"
+                        
+                    },
+                    "404": {
+                        "description": "Mentoring not found"
+                    }
+                }
+            }
+        },
+
+        "/mentoring/list": {
+            "get": {
+                "tags": ["Mentoring"],
+                "summary": "List mentoring",
+                "description": "Lists a table of some informations about the mentoring the user has. The data will show according to his role.",
+                "security": [
+                    { "bearerAuth": []}
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List the informations"
                     }
                 }
             }

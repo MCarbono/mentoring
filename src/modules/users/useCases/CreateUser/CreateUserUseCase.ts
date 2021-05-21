@@ -15,7 +15,7 @@ interface IRequest {
     password: string, 
     is_mentor: boolean, 
     info_mentor?: string,
-    skills_id?: Skill[],
+    skills_id?: string[],
     communications_id?: Communication[]
 }
 
@@ -64,6 +64,7 @@ class CreateUserUseCase {
                 email,
                 password: passwordHash,
                 is_mentor,
+                avatar: 'avatarPadrao.png'
             })
 
             skills.map(async skill => {
@@ -82,7 +83,8 @@ class CreateUserUseCase {
                 email,
                 password: passwordHash,
                 is_mentor,
-                info_mentor
+                info_mentor,
+                avatar: 'avatarPadrao.png'
             })
 
             skills.map(async skill => {

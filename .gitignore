@@ -3,3 +3,4 @@ ormconfig.json
 .env
 tmp/*
 !tmp/.gitkeep
+!tmp/avatar/avatarPadrao.png

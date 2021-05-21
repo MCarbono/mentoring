@@ -6,7 +6,7 @@ import { UsersRepositoryInMemory } from "@modules/users/repositories/in-memory/U
 import { AppError } from "@shared/errors/AppError";
 import { CreateUserUseCase } from "./CreateUserUseCase";
 
-let skills_id: Skill[] = [];
+let skills_id: string[] = [];
 let communications_id: Communication[] = [];
 let usersRepositoryInMemory: UsersRepositoryInMemory
 let skillsRepositoryInMemory: SkillsRepositoryInMemory
